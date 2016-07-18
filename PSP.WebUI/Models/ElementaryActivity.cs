@@ -8,8 +8,10 @@ namespace PSP.WebUI.Models
         [Required]
         public string Factory { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}")]
         public DateTime TimeFrom { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}")]
         public DateTime TimeTo { get; set; }
         [Required]
         [Range(0, 6, ErrorMessage = "Интервал от 0 до 6")]

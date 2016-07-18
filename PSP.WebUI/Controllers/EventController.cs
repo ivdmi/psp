@@ -16,7 +16,7 @@ namespace PSP.WebUI.Controllers
         private IRepository repository;
         private EventService eventService;
         private DataService dataService;
-        private DateTime startDate = DateTime.Now.AddDays(-64);
+        private DateTime startDate = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
 
         public EventController(IRepository paramRepository)
         {
@@ -49,15 +49,20 @@ namespace PSP.WebUI.Controllers
             return View(boardEvents);
         }
 
+        // Сохранить и выйти или удалить
         [HttpPost]
-        public ActionResult BoardEvents(BoardEventsViewModel boardEventsParam)
+        public ActionResult BoardEvents(BoardEventsViewModel boardEventsParam, int delete = 0)
         {
             var boardEvents = boardEventsParam;
             if (ModelState.IsValid)
             {
-                List<ElementaryActivity> activities = boardEvents.EventsOfDay.Activities.ToList();
-                activities.RemoveAll(item => item.Check == true);
-                boardEvents.EventsOfDay.Activities = activities;
+                if (delete == 1)
+                {
+                    List<ElementaryActivity> activities = boardEvents.EventsOfDay.Activities.ToList();
+                    activities.RemoveAll(item => item.Check == true);
+                    boardEvents.EventsOfDay.Activities = activities;
+                }
+
                 events Event = eventService.GetEventsByDayAndUserId(boardEvents.EventsOfDay.Date, boardEvents.EventsOfDay.UserId);
                 if (Event == null)
                 {
@@ -70,9 +75,12 @@ namespace PSP.WebUI.Controllers
                 eventService.UpdateEvent(Event);
             }
             boardEvents.Factories = dataService.GetFactoryList();
-   //         return RedirectToAction("BoardEvents", new { dateParam = boardEvents.EventsOfDay.Date, userId = boardEvents.EventsOfDay.UserId});  // ОТЛИЧНО РАБОТАЕТ!
+            
+            if (delete == 1)
+                return RedirectToAction("BoardEvents", new { dateParam = boardEvents.EventsOfDay.Date, userId = boardEvents.EventsOfDay.UserId});
             return RedirectToAction("Index");
         }
+        
 
         public ActionResult AddActivity(DateTime date, string userId)
         {
@@ -82,7 +90,7 @@ namespace PSP.WebUI.Controllers
             ViewBag.Factories = dataService.GetFactoryList();
             return View();
         }
-
+        
         [HttpPost]
         public ActionResult AddActivity(ElementaryActivity activity, DateTime date, string userId)
         {
@@ -112,30 +120,6 @@ namespace PSP.WebUI.Controllers
             return View(activity);
         }
 
-        [HttpPost]
-        public ActionResult Delete(DateTime date, string userId = "", int deleteRow = 1)
-        {
-            BoardEventsViewModel boardEvents = new BoardEventsViewModel()
-            {
-                EventsOfDay = eventService.GetUserEventsOfDay(date, userId),
-                Factories = dataService.GetFactoryList()
-            };
-            boardEvents.EventsOfDay.Activities.RemoveAt(deleteRow);
-            events Event = eventService.GetEventsByDayAndUserId(boardEvents.EventsOfDay.Date, boardEvents.EventsOfDay.UserId);
-            if (Event == null)
-            {
-                Event = eventService.CreateFilledEvent(boardEvents.EventsOfDay);
-            }
-            else
-            {
-                Event = eventService.FillEvent(boardEvents.EventsOfDay, Event);
-            }
-            eventService.UpdateEvent(Event);
-
-            return RedirectToAction("Index");
-        }
-        
-        // Работают, но использоваться не будут
         public ActionResult EditActivity(DateTime date, string userId, int rowNum)
         {
             var eventsOfDay = eventService.GetUserEventsOfDay(date, userId);
@@ -147,19 +131,38 @@ namespace PSP.WebUI.Controllers
             ViewBag.Factories = dataService.GetFactoryList();
             return View(activity);
         }
-
+        
         [HttpPost]
         public ActionResult EditActivity(ElementaryActivity activity, DateTime date, string userId, int rowNum)
         {
-            BoardEventsViewModel boardEvents = new BoardEventsViewModel()
-            {
-                EventsOfDay = eventService.GetUserEventsOfDay(date, userId),
-                Factories = dataService.GetFactoryList()
-            };
-            boardEvents.EventsOfDay.Activities[rowNum] = activity;
-
-            return View("BoardEvents", boardEvents);
+            events Event = eventService.GetEventsByDayAndUserId(date, userId);
+            var eventsOfDay = eventService.GetUserEventsOfDay(date, userId);
+            eventsOfDay.Activities[rowNum] = activity;
+            Event = eventService.FillEvent(eventsOfDay, Event);
+            eventService.UpdateEvent(Event);
+            return RedirectToAction("BoardEvents", new { userId = userId, dateParam = date });
         }
 
+        //[HttpPost]
+        //public ActionResult Delete(DateTime date, string userId = "", int deleteRow = 1)
+        //{
+        //    BoardEventsViewModel boardEvents = new BoardEventsViewModel()
+        //    {
+        //        EventsOfDay = eventService.GetUserEventsOfDay(date, userId),
+        //        Factories = dataService.GetFactoryList()
+        //    };
+        //    boardEvents.EventsOfDay.Activities.RemoveAt(deleteRow);
+        //    events Event = eventService.GetEventsByDayAndUserId(boardEvents.EventsOfDay.Date, boardEvents.EventsOfDay.UserId);
+        //    if (Event == null)
+        //    {
+        //        Event = eventService.CreateFilledEvent(boardEvents.EventsOfDay);
+        //    }
+        //    else
+        //    {
+        //        Event = eventService.FillEvent(boardEvents.EventsOfDay, Event);
+        //    }
+        //    eventService.UpdateEvent(Event);
+        //    return RedirectToAction("BoardEvents", new { userId = userId, dateParam = date });
+        //}
     }
 }

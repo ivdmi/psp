@@ -2,13 +2,11 @@
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
-<script src="~/Scripts/bootstrap.js"></script>
 <link href="~/Content/jquery-ui.css" type="text/css" rel="stylesheet" />
-<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
 <link href="~/Content/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
 <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
 <script src="~/Scripts/jquery-ui-timepicker-ru.js"></script>
-<script src="~/Scripts/jquery-ui-sliderAccess.js"></script>
+@*<script src="~/Scripts/jquery-ui-sliderAccess.js"></script>*@
 
 <h2>Добавить событие</h2>
 @using (Html.BeginForm("AddActivity", "Event", new { date = @ViewBag.Date, userId = @ViewBag.UserId }, FormMethod.Post))
@@ -29,14 +27,14 @@
             @Html.LabelFor(model => model.TimeFrom)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.TimeFrom, new { @ID = "TimeFrom", @name = "TimeFrom" })
+            @Html.TextBoxFor(model => model.TimeFrom)
             @Html.ValidationMessageFor(model => model.TimeFrom)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.TimeTo)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.TimeTo, new { @ID = "TimeTo", @name = "TimeTo" })
+            @Html.TextBoxFor(model => model.TimeTo)
             @Html.ValidationMessageFor(model => model.TimeTo)
         </div>
         <div class="editor-label">
@@ -80,21 +78,8 @@
     });
 </script>*@
 <script type="text/javascript">
-    //$(document).ready(function() {
-    //    $('#TimeTo').timepicker(
-    //    {
-    //        controlType: 'select',
-    //        oneLine: true,
-    //        stepMinute: 5,
-    //        hourMin: 6,
-    //        hourMax: 23,
-    //        timeFormat: 'HH:mm'
-    //    });
-    //});
-
     var startTimeTextBox = $('#TimeFrom');
     var endTimeTextBox = $('#TimeTo');
-
     $.timepicker.timeRange(
         startTimeTextBox,
         endTimeTextBox,
@@ -112,6 +97,5 @@
             end: {} // end picker options
         }
     );
-
 </script>
 
