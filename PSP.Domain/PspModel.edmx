@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="pspModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="auditoranalysis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="Date" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Auditor" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Cost" Type="int" Nullable="false" />
+          <Property Name="ConstForClient" Type="int" Nullable="false" />
+          <Property Name="Salary" Type="int" Nullable="false" />
+          <Property Name="Factory" Type="varchar" MaxLength="512" Nullable="false" />
+        </EntityType>
+        <EntityType Name="baseusers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Login" Type="varchar" MaxLength="256" />
+          <Property Name="Password" Type="varchar" MaxLength="256" />
+          <Property Name="Group" Type="varchar" MaxLength="256" />
+          <Property Name="ID" Type="varchar" MaxLength="38" Nullable="false" />
+        </EntityType>
+        <EntityType Name="clientcontacts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="512" />
+          <Property Name="SecondName" Type="varchar" MaxLength="512" />
+          <Property Name="PatrName" Type="varchar" MaxLength="512" />
+          <Property Name="Position" Type="varchar" MaxLength="1024" />
+          <Property Name="Birth" Type="varchar" MaxLength="256" />
+          <Property Name="Telephone" Type="text" />
+          <Property Name="Mail" Type="text" />
+          <Property Name="Comments" Type="text" />
+          <Property Name="Vip" Type="bit" Nullable="false" />
+          <Property Name="ClientID" Type="varchar" MaxLength="38" Nullable="false" />
+        </EntityType>
+        <EntityType Name="clients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Company" Type="varchar" MaxLength="512" />
+          <Property Name="Activity" Type="varchar" MaxLength="512" />
+          <Property Name="Idx" Type="varchar" MaxLength="512" />
+          <Property Name="City" Type="varchar" MaxLength="512" />
+          <Property Name="Street" Type="varchar" MaxLength="512" />
+          <Property Name="House" Type="varchar" MaxLength="256" />
+          <Property Name="Office" Type="varchar" MaxLength="256" />
+          <Property Name="AddrComments" Type="text" />
+          <Property Name="Telephone" Type="text" />
+          <Property Name="Fax" Type="text" />
+          <Property Name="Mail" Type="text" />
+          <Property Name="Comments" Type="text" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Own" Type="varchar" MaxLength="256" />
+          <Property Name="Auditor" Type="varchar" MaxLength="512" />
+          <Property Name="Works" Type="varchar" MaxLength="512" />
+          <Property Name="Establishing" Type="varchar" MaxLength="512" />
+          <Property Name="Special" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="companyanalysis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Company" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Income" Type="int" Nullable="false" />
+          <Property Name="Costs" Type="int" Nullable="false" />
+          <Property Name="Result" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="events">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="128" />
+          <Property Name="Comments" Type="text" />
+          <Property Name="Date" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="State" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="FactoryList" Type="text" />
+          <Property Name="WorkTime" Type="int" Nullable="false" />
+          <Property Name="EventDesc" Type="text" />
+        </EntityType>
+        <EntityType Name="groups">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="256" />
+          <Property Name="Password" Type="varchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="history">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Time" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Action" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Sender" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Body" Type="text" />
+          <Property Name="Created" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'def.psp.test_table' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="test_table">
+          <Property Name="tname" Type="varchar" MaxLength="256" />
+        </EntityType>-->
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" />
+          <Property Name="Contact" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="GroupID" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="Hidden" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ClientContacts">
+          <End Role="clients" Type="Self.clients" Multiplicity="1" />
+          <End Role="clientcontacts" Type="Self.clientcontacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="clientcontacts">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="groupsusers">
+          <End Type="Self.groups" Role="groups" Multiplicity="1" />
+          <End Type="Self.users" Role="users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="ID"></PropertyRef>
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="GroupID"></PropertyRef>
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="usersevents">
+          <End Type="Self.users" Role="users" Multiplicity="1" />
+          <End Type="Self.events" Role="events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="ID"></PropertyRef>
+            </Principal>
+            <Dependent Role="events">
+              <PropertyRef Name="UserID"></PropertyRef>
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+
+
+        <EntityContainer Name="pspModelStoreContainer">
+          <EntitySet Name="auditoranalysis" EntityType="Self.auditoranalysis" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="baseusers" EntityType="Self.baseusers" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="clientcontacts" EntityType="Self.clientcontacts" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="clients" EntityType="Self.clients" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="companyanalysis" EntityType="Self.companyanalysis" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="events" EntityType="Self.events" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="groups" EntityType="Self.groups" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="history" EntityType="Self.history" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="mails" EntityType="Self.mails" Schema="psp" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="psp" store:Type="Tables" />
+          <AssociationSet Name="FK_ClientContacts" Association="Self.FK_ClientContacts">
+            <End Role="clients" EntitySet="clients" />
+            <End Role="clientcontacts" EntitySet="clientcontacts" />
+          </AssociationSet>
+          <AssociationSet Name="groupsusers" Association="Self.groupsusers">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="usersevents" Association="Self.usersevents">
+            <End Role="users" EntitySet="users" />
+            <End Role="events" EntitySet="events" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="pspModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="auditoranalysis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="Auditor" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cost" Type="Int32" Nullable="false" />
+          <Property Name="ConstForClient" Type="Int32" Nullable="false" />
+          <Property Name="Salary" Type="Int32" Nullable="false" />
+          <Property Name="Factory" Type="String" MaxLength="512" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="baseusers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Login" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Group" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="clientcontacts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="SecondName" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="PatrName" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="Birth" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Mail" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Vip" Type="Boolean" Nullable="false" />
+          <Property Name="ClientID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="clients" Relationship="Self.FK_ClientContacts" FromRole="clientcontacts" ToRole="clients" />
+        </EntityType>
+        <EntityType Name="clients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Company" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Activity" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Idx" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="House" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Office" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="AddrComments" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Mail" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" />
+          <Property Name="Own" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Auditor" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Works" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Establishing" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Special" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="clientcontacts" Relationship="Self.FK_ClientContacts" FromRole="clients" ToRole="clientcontacts" />
+        </EntityType>
+        <EntityType Name="companyanalysis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Company" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Income" Type="Int32" Nullable="false" />
+          <Property Name="Costs" Type="Int32" Nullable="false" />
+          <Property Name="Result" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="events">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FactoryList" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="WorkTime" Type="Int32" Nullable="false" />
+          <Property Name="EventDesc" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="users" Relationship="pspModel.usersevents" FromRole="events" ToRole="users" />
+        </EntityType>
+        <EntityType Name="groups">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="users" Relationship="pspModel.groupsusers" FromRole="groups" ToRole="users" />
+        </EntityType>
+        <EntityType Name="history">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Time" Type="DateTime" Nullable="false" />
+          <Property Name="Action" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sender" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Body" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GroupID" Type="String" MaxLength="38" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Hidden" Type="SByte" Nullable="false" />
+          <NavigationProperty Name="groups" Relationship="pspModel.groupsusers" FromRole="users" ToRole="groups" />
+          <NavigationProperty Name="events" Relationship="pspModel.usersevents" FromRole="users" ToRole="events" />
+        </EntityType>
+        <Association Name="FK_ClientContacts">
+          <End Role="clients" Type="Self.clients" Multiplicity="1" />
+          <End Role="clientcontacts" Type="Self.clientcontacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clients">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="clientcontacts">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="pspEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="auditoranalysis" EntityType="Self.auditoranalysis" />
+          <EntitySet Name="baseusers" EntityType="Self.baseusers" />
+          <EntitySet Name="clientcontacts" EntityType="Self.clientcontacts" />
+          <EntitySet Name="clients" EntityType="Self.clients" />
+          <EntitySet Name="companyanalysis" EntityType="Self.companyanalysis" />
+          <EntitySet Name="events" EntityType="Self.events" />
+          <EntitySet Name="groups" EntityType="Self.groups" />
+          <EntitySet Name="history" EntityType="Self.history" />
+          <EntitySet Name="mails" EntityType="Self.mails" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK_ClientContacts" Association="Self.FK_ClientContacts">
+            <End Role="clients" EntitySet="clients" />
+            <End Role="clientcontacts" EntitySet="clientcontacts" />
+          </AssociationSet>
+          <AssociationSet Name="groupsusers" Association="pspModel.groupsusers">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="usersevents" Association="pspModel.usersevents">
+            <End Role="users" EntitySet="users" />
+            <End Role="events" EntitySet="events" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="groupsusers">
+          <End Type="pspModel.groups" Role="groups" Multiplicity="1" />
+          <End Type="pspModel.users" Role="users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="ID"></PropertyRef>
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="GroupID"></PropertyRef>
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="usersevents">
+          <End Type="pspModel.users" Role="users" Multiplicity="1" />
+          <End Type="pspModel.events" Role="events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="ID"></PropertyRef>
+            </Principal>
+            <Dependent Role="events">
+              <PropertyRef Name="UserID"></PropertyRef>
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="pspModelStoreContainer" CdmEntityContainer="pspEntities">
+          <EntitySetMapping Name="auditoranalysis">
+            <EntityTypeMapping TypeName="pspModel.auditoranalysis">
+              <MappingFragment StoreEntitySet="auditoranalysis">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Auditor" ColumnName="Auditor" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="ConstForClient" ColumnName="ConstForClient" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Factory" ColumnName="Factory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="baseusers">
+            <EntityTypeMapping TypeName="pspModel.baseusers">
+              <MappingFragment StoreEntitySet="baseusers">
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="clientcontacts">
+            <EntityTypeMapping TypeName="pspModel.clientcontacts">
+              <MappingFragment StoreEntitySet="clientcontacts">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="PatrName" ColumnName="PatrName" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Birth" ColumnName="Birth" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Vip" ColumnName="Vip" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="clients">
+            <EntityTypeMapping TypeName="pspModel.clients">
+              <MappingFragment StoreEntitySet="clients">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="Idx" ColumnName="Idx" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="House" ColumnName="House" />
+                <ScalarProperty Name="Office" ColumnName="Office" />
+                <ScalarProperty Name="AddrComments" ColumnName="AddrComments" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Own" ColumnName="Own" />
+                <ScalarProperty Name="Auditor" ColumnName="Auditor" />
+                <ScalarProperty Name="Works" ColumnName="Works" />
+                <ScalarProperty Name="Establishing" ColumnName="Establishing" />
+                <ScalarProperty Name="Special" ColumnName="Special" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="companyanalysis">
+            <EntityTypeMapping TypeName="pspModel.companyanalysis">
+              <MappingFragment StoreEntitySet="companyanalysis">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Income" ColumnName="Income" />
+                <ScalarProperty Name="Costs" ColumnName="Costs" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="events">
+            <EntityTypeMapping TypeName="pspModel.events">
+              <MappingFragment StoreEntitySet="events">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FactoryList" ColumnName="FactoryList" />
+                <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="groups">
+            <EntityTypeMapping TypeName="pspModel.groups">
+              <MappingFragment StoreEntitySet="groups">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="history">
+            <EntityTypeMapping TypeName="pspModel.history">
+              <MappingFragment StoreEntitySet="history">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mails">
+            <EntityTypeMapping TypeName="pspModel.mails">
+              <MappingFragment StoreEntitySet="mails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="pspModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Hidden" ColumnName="Hidden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

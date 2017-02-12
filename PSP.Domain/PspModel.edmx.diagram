@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e6258b46b4314f33b268c2706cabe3a1" Name="Diagram1" ZoomLevel="92">
+        <EntityTypeShape EntityType="pspModel.auditoranalysis" Width="1.5" PointX="12.875" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.baseusers" Width="1.5" PointX="4.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.clientcontacts" Width="1.5" PointX="2.625" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.clients" Width="1.5" PointX="0.5" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.companyanalysis" Width="1.5" PointX="3.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.events" Width="1.5" PointX="10.875" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.groups" Width="1.5" PointX="6.625" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.history" Width="1.5" PointX="9" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.mails" Width="1.5" PointX="6.125" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="pspModel.users" Width="1.5" PointX="8.625" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="pspModel.FK_ClientContacts" ManuallyRouted="false" />
+        <AssociationConnector Association="pspModel.groupsusers" />
+        <AssociationConnector Association="pspModel.usersevents" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

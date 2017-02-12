@@ -1,0 +1,38 @@
+﻿@model List<PSP.WebUI.Models.GridViewDataFactoryRowInfo>
+
+@{
+    ViewBag.Title = "AuditorStat";
+}
+<body>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Статистика предприятий: @ViewBag.StartDate - @ViewBag.EndDate</div>
+        <div class="row">
+            <table class="table table-striped table-bordered table-hover">
+                <tbody>
+                <tr>
+                    <th></th>
+                    <th>#</th>
+                    <th>Предприятие</th>
+                    <th>Состояние</th>
+                    <th>Дней</th>
+                    <th>Часов</th>
+                    <th>Аудиторы</th>
+                </tr>
+
+                    @foreach (var row in Model)
+                    {
+                        <tr>
+                            <th></th>
+                            <td>@row.Count</td>
+                            <td>@row.Factory</td>
+                            <td>@row.State</td>
+                            <td>@row.Days</td>
+                            <td>@row.TotalMinutes</td>
+                            <td>@row.Auditors</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>

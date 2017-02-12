@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-content" style="width: 600px !important; margin: 30px auto !important; font-size: 10px">
+        </div>
+    </div>
+    <div id="header" class="container">
+        <div class="masthead">
+            @*<h3 class="text-muted">@Html.ActionLink("Application Name", "Index", "Home")</h3>*@
+            <ul class="nav nav-justified">
+                <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = "active" })</li>
+                <li>@Html.ActionLink("About Boostrap", "About", "Home")</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                <li>@Html.ActionLink("Статистика аудиторов", "AuditorStat", "Home")</li>
+                <li>@Html.ActionLink("Статистика предприятий", "FactoryStat", "Home")</li>
+            </ul>
+        </div>
+    </div>
+    <div id="categories">
+        @*@{ Html.RenderAction("Menu", "Nav"); }*@
+    </div>
+
+    <div id="content">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+<script type="text/javascript">
+    $(function () {
+        // Initialize modal dialog
+        // attach modal-container bootstrap attributes to links with .modal-link class.
+        // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+
+        $('body').on('click', '.modal-link', function (e) {
+            e.preventDefault();
+            $(this).attr('data-target', '#modal-container');
+            $(this).attr('data-toggle', 'modal');
+        });
+        // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+        $('body').on('click', '.modal-close-btn', function () {
+            $('#modal-container').modal('hide');
+        });
+        //clear modal cache, so that new content can be loaded
+        $('#modal-container').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+        $('#CancelModal').on('click', function () {
+            return false;
+        });
+    });
+</script>
