@@ -5,6 +5,7 @@ using PSP.Domain;
 
 namespace PSP.WebUI.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class GroupController : Controller
     {
         private pspEntities db = new pspEntities();

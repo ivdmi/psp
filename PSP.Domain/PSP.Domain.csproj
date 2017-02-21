@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IRepository.cs" />
-    <Compile Include="Abstract\IClientsRepository.cs" />
     <Compile Include="auditoranalysis.cs">
       <DependentUpon>PspModel.tt</DependentUpon>
     </Compile>
@@ -72,9 +71,7 @@
     </Compile>
     <Compile Include="Concrete\PspContext.cs" />
     <Compile Include="Concrete\Repository.cs" />
-    <Compile Include="Entities\BaseUser.cs" />
-    <Compile Include="Entities\Client.cs" />
-    <Compile Include="Entities\ClientContact.cs" />
+    <Compile Include="Concrete\UserRoles.cs" />
     <Compile Include="events.cs">
       <DependentUpon>PspModel.tt</DependentUpon>
     </Compile>
@@ -135,7 +132,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -2,10 +2,12 @@
 using System.Web.Mvc;
 using PSP.Domain;
 using PSP.Domain.Abstract;
+using PSP.Domain.Concrete;
 using PSP.Domain.Service;
 
 namespace PSP.WebUI.Controllers
 {
+    [Authorize(Roles = "admin, manager, user")]
     public class BaseUserController : Controller
     {
         private BaseUsersService baseUsers;
@@ -32,13 +34,18 @@ namespace PSP.WebUI.Controllers
         }
 
         // GET: /BaseUser/Create
+        [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
+            SelectList roles = new SelectList(UserRoles.RolesList);
+            ViewBag.Roles = roles;
             return View();
         }
 
         // POST: /BaseUser/Create
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(baseusers user)
         {
@@ -47,22 +54,16 @@ namespace PSP.WebUI.Controllers
                 baseUsers.AddUser(user);
                 baseUsers.SaveChanges();
                 return RedirectToAction("Index");
-            }
+            }            
+            SelectList roles = new SelectList(UserRoles.RolesList);
+            ViewBag.Roles = roles;
             return View(user);
         }
 
-        // GET: /BaseUser/Edit
-        public ActionResult Edit(string id = null)
-        {
-            baseusers user = baseUsers.GetUser(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
+
 
         // GET: /BaseUser/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(string id = null)
         {
             baseusers user = baseUsers.GetUser(id);
@@ -75,6 +76,7 @@ namespace PSP.WebUI.Controllers
 
         // POST: /BaseUser/Delete
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
@@ -82,8 +84,21 @@ namespace PSP.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: /BaseUser/Edit
+        [Authorize(Roles = "admin")]
+        public ActionResult Edit(string id = null)
+        {
+            baseusers user = baseUsers.GetUser(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
         // POST: /BaseUser/Edit
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(baseusers user)
         {

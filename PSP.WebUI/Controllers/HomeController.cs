@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using PSP.Domain;
 using PSP.Domain.Abstract;
 using PSP.Domain.Concrete;
-using PSP.Domain.Entities;
 using PSP.Domain.Service;
 using PSP.WebUI.Helpers;
 using PSP.WebUI.Models;

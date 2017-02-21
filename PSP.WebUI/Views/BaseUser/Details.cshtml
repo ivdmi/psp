@@ -10,27 +10,31 @@
     <legend>baseusers</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Login)
+        @Html.DisplayNameFor(model => model.Login)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Login)
     </div>
-
+    @if (HttpContext.Current.User.IsInRole("admin"))
+    {
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Password)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Password)
+        </div>
+    }
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Password)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Password)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Group)
+        @Html.DisplayNameFor(model => model.Group)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Group)
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @if (HttpContext.Current.User.IsInRole("admin"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>

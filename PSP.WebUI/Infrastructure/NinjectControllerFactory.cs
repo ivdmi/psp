@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 using Ninject;
-using PSP.Domain.Entities;
 using PSP.Domain.Abstract;
 using PSP.Domain.Concrete;
 using PSP.WebUI.Infrastructure.Abstract;

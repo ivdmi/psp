@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PSP.Domain.Abstract;
-using PSP.Domain.Entities;
 
 namespace PSP.Domain.Concrete
 {

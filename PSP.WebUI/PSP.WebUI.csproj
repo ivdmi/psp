@@ -134,7 +134,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountControllerController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseUserController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
@@ -149,10 +149,12 @@
     <Compile Include="Models\GridViewDataAuditorRowInfo.cs" />
     <Compile Include="Models\GridViewDataFactoryRowInfo.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\UsersTreeView.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Models\UsersTreeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\PspRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -281,7 +283,6 @@
     <Content Include="Views\Home\AuditorStat.cshtml" />
     <Content Include="Views\Home\FactoryStat.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

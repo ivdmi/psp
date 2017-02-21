@@ -1,16 +1,59 @@
 ﻿@model PSP.WebUI.Models.LoginViewModel
 
 @{
-    ViewBag.Title = "Admin: Log In";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = null;
 }
 
-<h1>Log In</h1>
+<!DOCTYPE html>
 
-<p>Please log in to access the administrative area:</p>
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-    @Html.EditorForModel()
-    <p><input type="submit" value="Log in" /></p>
-}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <title>Вход в систему</title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <h2>Вход в систему</h2>
+    <p>Введите свой логин и пароль для входа в систему</p>
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Войти в систему</legend>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.UserName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Password)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.RememberMe)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.RememberMe)
+            </div>
+
+            <p>
+                <input type="submit" value="Войти" />
+            </p>
+        </fieldset>
+    }
+</body>
+</html>

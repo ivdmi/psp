@@ -1,17 +1,17 @@
 ﻿@model PSP.Domain.baseusers
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Создание пользователя";
 }
 
-<h2>Create</h2>
+<h2>Создание нового пользователя</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>baseusers</legend>
+        <legend>Новый пользователь</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Login)
@@ -33,12 +33,12 @@
             @Html.LabelFor(model => model.Group)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Group)
+            @Html.DropDownListFor(model => model.Group, ViewBag.Roles as SelectList)
             @Html.ValidationMessageFor(model => model.Group)
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Добавить" />
         </p>
     </fieldset>
 }
