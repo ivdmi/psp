@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PSP.Domain;
+using PSP.Domain.Abstract;
 using PSP.Domain.Service;
 using PSP.WebUI.Models;
 
 namespace PSP.WebUI.Helpers
 {
-    public static class FactoryStatistics
+    public class FactoryStatistics
     {
+        private DataService dataService;
+        public FactoryStatistics(IRepository repository)
+        {
+            dataService = new DataService(repository);
+        }
         private class FactoryStatsItem
         {
             public FactoryStatsItem() { Auditors = new List<Auditor>(); }
@@ -61,11 +67,11 @@ namespace PSP.WebUI.Helpers
         }
 
 
-        public static List<GridViewDataFactoryRowInfo> Get(DateTime startDate, DateTime endDate)
+        public List<GridViewDataFactoryRowInfo> Get(DateTime startDate, DateTime endDate)
         {
             // Получить всех пользователей и все события за промежуток времени
-            List<users> AllUsers = DataService.GetAllUsers();
-            List<events> AllEvents = DataService.GetEventsByDate(startDate, endDate);
+            List<users> AllUsers = dataService.GetAllUsers();
+            List<events> AllEvents = dataService.GetEventsByDate(startDate, endDate);
 
             var factoryStats = new List<FactoryStatsItem>();
             Func<string, int, string, int, FactoryStatsItem> AddDay = (F, S, A, Mins) =>

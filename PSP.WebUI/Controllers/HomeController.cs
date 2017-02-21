@@ -35,7 +35,8 @@ namespace PSP.WebUI.Controllers
         {
             DateTime StartDate = DateTime.Parse("1/12/2016");
             DateTime EndDate = DateTime.Parse("31/12/2016");
-            var auditorStatisticsResult = AuditorStatistics.Get(StartDate, EndDate);
+            AuditorStatistics statistics = new AuditorStatistics(repository);
+            var auditorStatisticsResult = statistics.Get(StartDate, EndDate);
             ViewBag.StartDate = StartDate.ToShortDateString();
             ViewBag.EndDate = EndDate.ToShortDateString();
             return View(auditorStatisticsResult);
@@ -45,7 +46,8 @@ namespace PSP.WebUI.Controllers
         {
             DateTime StartDate = DateTime.Parse("1/12/2016");
             DateTime EndDate = DateTime.Parse("31/12/2016");
-            var factoryStatisticResult = FactoryStatistics.Get(StartDate, EndDate);
+            FactoryStatistics statistics =  new FactoryStatistics(repository);
+            var factoryStatisticResult = statistics.Get(StartDate, EndDate);
             ViewBag.StartDate = StartDate.ToShortDateString();
             ViewBag.EndDate = EndDate.ToShortDateString();
             return View(factoryStatisticResult);

@@ -7,7 +7,7 @@ namespace PSP.WebUI.Controllers
 {
     public class GroupController : Controller
     {
-        private PspEntities db = new PspEntities();
+        private pspEntities db = new pspEntities();
 
 
         // GET: /Group/

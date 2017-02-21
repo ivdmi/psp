@@ -4,7 +4,7 @@ namespace PSP.Domain.Abstract
 {
     public interface IRepository
     {
-        PspEntities Context { get; set; }
+        pspEntities Context { get; set; }
         IQueryable<clients> Clients { get; }
         IQueryable<clientcontacts> ClientContacts { get; }
         IQueryable<groups> Groups { get; }

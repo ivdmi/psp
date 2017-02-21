@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PSP.Domain;
+using PSP.Domain.Abstract;
 using PSP.Domain.Service;
 using PSP.WebUI.Models;
 
 namespace PSP.WebUI.Helpers
 {
-    public static class AuditorStatistics
+    public class AuditorStatistics
     {
-//        public delegate void OnAddAuditorStatsElement(string Auditor, string State, int Days, int CalendarDays, int TotalMinutes, string Factories);
-
+        private DataService dataService;
+        public AuditorStatistics(IRepository repository)
+        {
+            dataService = new DataService(repository);
+        }
+        
         private class AuditorStatsItem
         {
+
             public AuditorStatsItem()
             {
                 Factories = new List<FactoryItem>();
@@ -92,17 +98,17 @@ namespace PSP.WebUI.Helpers
         }
 
         // Значительно дольше чем Func<string, string> GetAuditorName = K => (from User in AllUsers where User.ID.ToLower() == K.ToLower() select User.Name).FirstOrDefault();
-        private static string GetAuditorByIdName(string Id)
+        private string GetAuditorByIdName(string Id)
         {
-            var user = DataService.GetAllUsers().FirstOrDefault(item => item.ID.Equals(Id));
+            var user = dataService.GetAllUsers().FirstOrDefault(item => item.ID.Equals(Id));
             return user == null ? string.Empty : user.Name;
         }
 
-        public static List<GridViewDataAuditorRowInfo> Get(DateTime startDate, DateTime endDate)
+        public List<GridViewDataAuditorRowInfo> Get(DateTime startDate, DateTime endDate)
         {
             // Получить всех пользователей и все события за промежуток времени
-            List<users> AllUsers = DataService.GetAllUsers();
-            List<events> AllEvents = DataService.GetEventsByDate(startDate, endDate);
+            List<users> AllUsers = dataService.GetAllUsers();
+            List<events> AllEvents = dataService.GetEventsByDate(startDate, endDate);
 
             // Получить имя аудитора по идентификатору
             Func<string, string> GetAuditorName = K => (from User in AllUsers where User.ID.ToLower() == K.ToLower() select User.Name).FirstOrDefault();

@@ -10,10 +10,10 @@ namespace PSP.Domain.Concrete
 
         public Repository()
         {
-            Context = new PspEntities();
+            Context = new pspEntities();
         }
 
-        public PspEntities Context {get; set;}
+        public pspEntities Context {get; set;}
 
         public IQueryable<clients> Clients
         {
