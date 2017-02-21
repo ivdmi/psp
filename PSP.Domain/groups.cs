@@ -7,6 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace PSP.Domain
 {
     using System;
@@ -16,9 +19,12 @@ namespace PSP.Domain
     {
         public groups()
         {
+            ID = Guid.NewGuid().ToString();
             this.users = new HashSet<users>();
         }
     
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public string ID { get; set; }
         public string Name { get; set; }
         public string Login { get; set; }

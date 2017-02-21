@@ -16,6 +16,7 @@ namespace PSP.Domain
     {
         public users()
         {
+            ID = Guid.NewGuid().ToString();
             this.events = new HashSet<events>();
         }
     

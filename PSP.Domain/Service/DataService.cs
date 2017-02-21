@@ -18,9 +18,9 @@ namespace PSP.Domain.Service
         /// </summary>
         /// <param name="id">The group GUID.</param>
         /// <returns></returns>
-        public static baseusers GetUser(string id)
+        public static baseusers GetBaseUser(string id)
         {
-            return _entities.BaseUsers.SingleOrDefault(g => g.ID.Contains(id));
+            return _entities.BaseUsers.FirstOrDefault(g => g.ID.Contains(id));
 
         }
 
@@ -39,5 +39,11 @@ namespace PSP.Domain.Service
             return events;
         }
 
+        // Значительно дольше чем Func<string, string> GetAuditorName = K => (from User in AllUsers where User.ID.ToLower() == K.ToLower() select User.Name).FirstOrDefault();
+        public static string GetAuditorNameByIdService(string ident)
+        {
+            var user = _entities.Users.FirstOrDefault(item => item.ID.Equals(ident));
+            return user == null ? string.Empty : user.Name;
+        }
     }
 }

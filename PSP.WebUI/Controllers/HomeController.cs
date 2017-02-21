@@ -19,8 +19,7 @@ namespace PSP.WebUI.Controllers
         // GET: /Home/
         private IRepository repository;
 
-        // ТЕПЕРЬ НЕ БУДЕТ ИСПОЛЬЗОВАТЬСЯ                                                               !!!
-        private GroupService groupService = new GroupService(new Repository());
+        private GroupService groupService = new GroupService();
 
         public HomeController(IRepository paramRepository)
         {

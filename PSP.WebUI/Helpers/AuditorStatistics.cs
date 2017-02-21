@@ -12,9 +12,9 @@ namespace PSP.WebUI.Helpers
     {
 //        public delegate void OnAddAuditorStatsElement(string Auditor, string State, int Days, int CalendarDays, int TotalMinutes, string Factories);
 
-        private class SingleAuditorStats
+        private class AuditorStatsItem
         {
-            public SingleAuditorStats()
+            public AuditorStatsItem()
             {
                 Factories = new List<FactoryItem>();
                 UniqueDates = new List<DateTime>();
@@ -45,17 +45,17 @@ namespace PSP.WebUI.Helpers
                 return Factories.Sum(Item => Item.Count);
             }
 
-            public void IncrementFactoryCounter(string Factory, int Minutes)
+            public void IncrementFactoryCounter(string factory, int minutes)
             {
-                FactoryItem Item = Factories.Where(P => P.Name == Factory).Select(P => P).FirstOrDefault();
+                FactoryItem Item = Factories.Where(P => P.Name == factory).Select(P => P).FirstOrDefault();
                 if (null == Item)
                 {
-                    Factories.Add(new FactoryItem { Name = Factory, Count = 1, Minutes = Minutes });
+                    Factories.Add(new FactoryItem { Name = factory, Count = 1, Minutes = minutes });
                 }
                 else
                 {
                     Item.Count++;
-                    Item.Minutes += Minutes;
+                    Item.Minutes += minutes;
                 }
             }
 
@@ -91,6 +91,13 @@ namespace PSP.WebUI.Helpers
             auditorStatisticsResult.Add(auditorRow);
         }
 
+        // Значительно дольше чем Func<string, string> GetAuditorName = K => (from User in AllUsers where User.ID.ToLower() == K.ToLower() select User.Name).FirstOrDefault();
+        private static string GetAuditorByIdName(string Id)
+        {
+            var user = DataService.GetAllUsers().FirstOrDefault(item => item.ID.Equals(Id));
+            return user == null ? string.Empty : user.Name;
+        }
+
         public static List<GridViewDataAuditorRowInfo> Get(DateTime startDate, DateTime endDate)
         {
             // Получить всех пользователей и все события за промежуток времени
@@ -102,12 +109,14 @@ namespace PSP.WebUI.Helpers
 
             Func<DateTime, bool> HasEventsAtDate = D => AllEvents.Any(Event => Event.Date == D);
 
-            var auditorStats = new List<SingleAuditorStats>();
-            Func<events, string, int, int, SingleAuditorStats> AddDay = (E, F, Minutes, State) =>
+            var auditorStats = new List<AuditorStatsItem>();
+            Func<events, string, int, int, AuditorStatsItem> AddDay = (E, F, Minutes, State) =>
             {
-                foreach (SingleAuditorStats stats in auditorStats)
+                foreach (AuditorStatsItem stats in auditorStats)
                 {
-                    if (stats.Auditor == GetAuditorName(E.UserID) && stats.State == State)
+                  if (stats.Auditor == GetAuditorName(E.UserID) && stats.State == State)
+                  //                    if (stats.Auditor == GetAuditorByIdName(E.UserID) && stats.State == State)
+//                    if (stats.Auditor == DataService.GetAuditorNameByIdService(E.UserID) && stats.State == State)
                     {
                         stats.IncrementFactoryCounter(F, /*E.WorkTime*/Minutes);
                         if (HasEventsAtDate(E.Date))
@@ -115,12 +124,14 @@ namespace PSP.WebUI.Helpers
                         return stats;
                     }
                 }
-                var NewItem = new SingleAuditorStats { Auditor = GetAuditorName(E.UserID), State = State };
-                NewItem.IncrementFactoryCounter(F, /*E.WorkTime*/Minutes);
+                var newItem = new AuditorStatsItem { Auditor = GetAuditorName(E.UserID), State = State };
+//                var NewItem = new AuditorStatsItem { Auditor = GetAuditorByIdName(E.UserID), State = State };
+//                var NewItem = new SingleAuditorStats { Auditor = DataService.GetAuditorNameByIdService(E.UserID), State = State };
+                newItem.IncrementFactoryCounter(F, /*E.WorkTime*/Minutes);
                 if (HasEventsAtDate(E.Date))
-                    NewItem.AddDate(E.Date);
-                auditorStats.Add(NewItem);
-                return NewItem;
+                    newItem.AddDate(E.Date);
+                auditorStats.Add(newItem);
+                return newItem;
             };
 
             // Собрать статистику
@@ -128,12 +139,12 @@ namespace PSP.WebUI.Helpers
             foreach (events Event in AllEvents)
             {
                 i++;
-                string Buffer = Event.FactoryList;
-                if (Buffer.EndsWith(";"))
-                    Buffer = Buffer.Remove(Buffer.Length - 1);
+                string buffer = Event.FactoryList;
+                if (buffer.EndsWith(";"))
+                    buffer = buffer.Remove(buffer.Length - 1);
                 //string[] Factories = Event.FactoryList.Split(';');
-                string[] Factories = Buffer.Split(';');
-                foreach (string Factory in Factories)
+                string[] factories = buffer.Split(';');
+                foreach (string factory in factories)
                 {
                     //if (Factory.Length > 0)
                     //string S = FactoryListBoxItem.GetFactoryName(Factory);
@@ -142,7 +153,7 @@ namespace PSP.WebUI.Helpers
                     DateTime End;
                     int Key;
                     string Comm;
-                    if (EventHelper.UnpackEventFromString(Factory, out S, out Beg, out End, out Key, out Comm))
+                    if (EventHelper.UnpackEventFromString(factory, out S, out Beg, out End, out Key, out Comm))
                     {
                         AddDay(Event, S, EventHelper.GetMinutes(Beg, End)/*Convert.ToInt32((End - Beg).TotalMinutes)*/, Key);
                     }
@@ -150,16 +161,16 @@ namespace PSP.WebUI.Helpers
             }
 
             // Отобразить статистику в таблице
-            foreach (SingleAuditorStats Item in auditorStats)
+            foreach (AuditorStatsItem item in auditorStats)
             {
-                var Factories = new StringBuilder("");
-                foreach (var S in Item.Factories)
+                var factories = new StringBuilder("");
+                foreach (var S in item.Factories)
                     if (S.Name.Length > 0)
-                        Factories.AppendFormat("{0} ({1}), ", S.Name, EventHelper.FormatMinutes(S.Minutes)/*S.Count*/);
-                string Buffer = Factories.ToString();
-                if (Buffer.EndsWith(", "))
-                    Buffer = Buffer.Remove(Buffer.Length - 2, 2);
-                AddAuditorStatsLine(Item.Auditor, EventHelper.States[Item.State].Name, Item.GetDays(), Item.GetRealDays(), Item.TotalMinutes(), Buffer);
+                        factories.AppendFormat("{0} ({1}), ", S.Name, EventHelper.FormatMinutes(S.Minutes)/*S.Count*/);
+                string buffer = factories.ToString();
+                if (buffer.EndsWith(", "))
+                    buffer = buffer.Remove(buffer.Length - 2, 2);
+                AddAuditorStatsLine(item.Auditor, EventHelper.States[item.State].Name, item.GetDays(), item.GetRealDays(), item.TotalMinutes(), buffer);
             }
             
             return auditorStatisticsResult;

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using PSP.Domain.Abstract;
 
@@ -10,27 +8,20 @@ namespace PSP.Domain.Service
     public class BaseUsersService
     {
         private readonly IRepository _entities;
-        pspEntities db = new pspEntities();
         
-        public BaseUsersService(IRepository paramRepository)
+        public BaseUsersService(IRepository repository)
         {
-            _entities = paramRepository;
+            _entities = repository;
         }
-        
+
         /// <summary>
         /// Gets the group 
         /// </summary>
         /// <param name="id">The group GUID.</param>
         /// <returns></returns>
-        public virtual baseusers GetUser(string id)
+        public baseusers GetUser(string id)
         {
-            return _entities.BaseUsers.SingleOrDefault(g => g.ID.Contains(id));
-        }
-
-        // КАКОЙ ИЗ ЭТИХ 2 МЕТОДОВ ЛУЧШЕ                                                                        ??????
-        public virtual baseusers GetUserById(string id = null)
-        {
-            return db.baseusers.Find(id);
+            return _entities.BaseUsers.FirstOrDefault(g => g.ID.Equals(id));
         }
 
         /// <summary>
@@ -38,28 +29,45 @@ namespace PSP.Domain.Service
         /// </summary>
         /// <param name="id">The group GUID.</param>
         /// <returns></returns>
-        public virtual void RemoveUser(string id = null)
+        public void RemoveUser(string id)
         {
-            db.baseusers.Remove(GetUserById(id));
-            db.SaveChanges();
+            var usr = _entities.Context.baseusers.Find(id);
+            _entities.Context.baseusers.Remove(usr);
+            SaveChanges();
         }
 
         /// <summary>
         /// Update the group 
         /// </summary>
-        /// <param name="id">The group GUID.</param>
+        /// <param name="user">The group GUID.</param>
         /// <returns></returns>
-        public virtual void UpdateUser(baseusers user)
+        public void AddUser(baseusers user)
         {
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
+            _entities.Context.baseusers.Add(user);
+            SaveChanges();
+        }
+
+        /// <summary>
+        /// Update the group 
+        /// </summary>
+        /// <param name="user">The group GUID.</param>
+        /// <returns></returns>
+        public void UpdateUser(baseusers user)
+        {
+            _entities.Context.Entry(user).State = EntityState.Modified;
+            SaveChanges();
+        }
+
+        public void SaveChanges()
+        {
+            _entities.Context.SaveChanges();
         }
 
         /// <summary>
         /// Gets all groups 
         /// </summary>
         /// <returns>IList</returns>
-        public virtual IList<baseusers> GetAllBaseUsers()
+        public IList<baseusers> GetAllBaseUsers()
         {
             return _entities.BaseUsers.ToList();
         }

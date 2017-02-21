@@ -14,6 +14,11 @@ namespace PSP.Domain
     
     public partial class baseusers
     {
+        public baseusers()
+        {
+            ID = Guid.NewGuid().ToString();
+        }
+
         public string Login { get; set; }
         public string Password { get; set; }
         public string Group { get; set; }

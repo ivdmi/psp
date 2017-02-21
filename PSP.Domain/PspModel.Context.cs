@@ -13,9 +13,9 @@ namespace PSP.Domain
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class pspEntities : DbContext
+    public partial class PspEntities : DbContext
     {
-        public pspEntities()
+        public PspEntities()
             : base("name=pspEntities")
         {
         }

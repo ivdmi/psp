@@ -1,78 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using PSP.Domain;
-using PSP.Domain.Concrete;
+using PSP.Domain.Abstract;
 using PSP.Domain.Service;
 
 namespace PSP.WebUI.Controllers
 {
     public class BaseUserController : Controller
     {
-        private pspEntities db = new pspEntities();
-        private BaseUsersService baseUsers = new BaseUsersService(new Repository());
+        private BaseUsersService baseUsers;
 
-        //
-        // GET: /BaseUser/
+        private IRepository repository;
 
-        public ActionResult Index()
+        public BaseUserController(IRepository repositoryDi)
         {
-            //                                               НУЖЕН ЛИ НАМ ВООБЩЕ СЕРВИС, если есть db - ?
-            // return View(db.baseusers.ToList());
+            repository = repositoryDi;
+            baseUsers = new BaseUsersService(repository);
+        }
+
+        // GET: /BaseUser/
+        public ViewResult Index()
+        {
             return View(baseUsers.GetAllBaseUsers());
         }
 
-        //
         // GET: /BaseUser/Details/5
-
-        public ActionResult Details(string id = null)
+        public ViewResult Details(string id)
         {
-            //          baseusers baseusers = db.baseusers.Find(id);
-            var baseUser = baseUsers.GetUserById(id);
-            var bUser = baseUsers.GetUser(id);
-            if (baseUser == null)
-            {
-                return HttpNotFound();
-            }
+            var baseUser = baseUsers.GetUser(id);
             return View(baseUser);
         }
 
-        //
         // GET: /BaseUser/Create
-
         public ActionResult Create()
         {
             return View();
         }
 
-        //
         // POST: /BaseUser/Create
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(baseusers baseusers)
+        public ActionResult Create(baseusers user)
         {
             if (ModelState.IsValid)
             {
-                baseusers.ID = Guid.NewGuid().ToString();
-                db.baseusers.Add(baseusers);
-                db.SaveChanges();
+                baseUsers.AddUser(user);
+                baseUsers.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(baseusers);
+            return View(user);
         }
 
-        //
-        // GET: /BaseUser/Edit/5
-
+        // GET: /BaseUser/Edit
         public ActionResult Edit(string id = null)
         {
-            baseusers user = baseUsers.GetUserById(id);
+            baseusers user = baseUsers.GetUser(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -80,31 +62,10 @@ namespace PSP.WebUI.Controllers
             return View(user);
         }
 
-        //
-        // POST: /BaseUser/Edit/5
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(baseusers user)
-        {
-            if (ModelState.IsValid)
-            {
-                //db.Entry(baseusers).State = EntityState.Modified;
-                //db.SaveChanges();
-                baseUsers.UpdateUser(user);
-                return RedirectToAction("Index");
-            }
-            return View(user);
-        }
-
-        //
         // GET: /BaseUser/Delete/5
-
         public ActionResult Delete(string id = null)
         {
-            baseusers user = baseUsers.GetUserById(id);
-
-            //              db.baseusers.Find(id);
+            baseusers user = baseUsers.GetUser(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -112,9 +73,7 @@ namespace PSP.WebUI.Controllers
             return View(user);
         }
 
-        //
-        // POST: /BaseUser/Delete/5
-
+        // POST: /BaseUser/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
@@ -123,10 +82,17 @@ namespace PSP.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    db.Dispose();
-        //    base.Dispose(disposing);
-        //}
+        // POST: /BaseUser/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(baseusers user)
+        {
+            if (ModelState.IsValid)
+            {
+                baseUsers.UpdateUser(user);
+                return RedirectToAction("Index");
+            }
+            return View(user);
+        }
     }
 }

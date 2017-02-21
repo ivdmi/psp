@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using PSP.Domain;
 
@@ -11,19 +7,16 @@ namespace PSP.WebUI.Controllers
 {
     public class GroupController : Controller
     {
-        private pspEntities db = new pspEntities();
+        private PspEntities db = new PspEntities();
 
-        //
+
         // GET: /Group/
-
         public ActionResult Index()
         {
             return View(db.groups.ToList());
         }
 
-        //
-        // GET: /Group/Details/5
-
+        // GET: /Group/Details/
         public ActionResult Details(string id = null)
         {
             groups groups = db.groups.Find(id);
@@ -34,35 +27,28 @@ namespace PSP.WebUI.Controllers
             return View(groups);
         }
 
-        //
         // GET: /Group/Create
-
         public ActionResult Create()
         {
             return View();
         }
 
-        //
         // POST: /Group/Create
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(groups groups)
+        public ActionResult Create(groups group)
         {
             if (ModelState.IsValid)
             {
-                groups.ID = Guid.NewGuid().ToString();
-                db.groups.Add(groups);
+                db.groups.Add(group);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(groups);
+            return View(group);
         }
 
-        //
-        // GET: /Group/Edit/5
-
+        // GET: /Group/Edit
         public ActionResult Edit(string id = null)
         {
             groups groups = db.groups.Find(id);
@@ -73,25 +59,21 @@ namespace PSP.WebUI.Controllers
             return View(groups);
         }
 
-        //
-        // POST: /Group/Edit/5
-
+        // POST: /Group/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(groups groups)
+        public ActionResult Edit(groups group)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(groups).State = EntityState.Modified;
+                db.Entry(group).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(groups);
+            return View(group);
         }
 
-        //
-        // GET: /Group/Delete/5
-
+        // GET: /Group/Delete
         public ActionResult Delete(string id = null)
         {
             groups groups = db.groups.Find(id);
@@ -102,9 +84,7 @@ namespace PSP.WebUI.Controllers
             return View(groups);
         }
 
-        //
-        // POST: /Group/Delete/5
-
+        // POST: /Group/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
