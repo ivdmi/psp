@@ -70,7 +70,9 @@
     <Compile Include="companyanalysis.cs">
       <DependentUpon>PspModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\PspContext.cs" />
     <Compile Include="Concrete\Repository.cs" />
+    <Compile Include="Entities\BaseUser.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\ClientContact.cs" />
     <Compile Include="events.cs">

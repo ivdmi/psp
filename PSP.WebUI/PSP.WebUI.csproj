@@ -134,6 +134,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountControllerController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseUserController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -142,8 +144,11 @@
     </Compile>
     <Compile Include="Helpers\FactoryStatistics.cs" />
     <Compile Include="Helpers\AuditorStatistics.cs" />
+    <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
+    <Compile Include="Infrastructure\Concrete\FormsAuthProvider.cs" />
     <Compile Include="Models\GridViewDataAuditorRowInfo.cs" />
     <Compile Include="Models\GridViewDataFactoryRowInfo.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\UsersTreeView.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Models\UsersTreeViewModel.cs" />
@@ -275,6 +280,8 @@
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\Home\AuditorStat.cshtml" />
     <Content Include="Views\Home\FactoryStat.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

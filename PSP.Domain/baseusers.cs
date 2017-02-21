@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace PSP.Domain
 {
     using System;
@@ -19,7 +21,12 @@ namespace PSP.Domain
             ID = Guid.NewGuid().ToString();
         }
 
+        [Required]
+        [Display(Name = "Логин")]
+        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
         public string Login { get; set; }
+        [Required]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
         public string Group { get; set; }
         public string ID { get; set; }

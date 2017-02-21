@@ -9,6 +9,8 @@ using Ninject;
 using PSP.Domain.Entities;
 using PSP.Domain.Abstract;
 using PSP.Domain.Concrete;
+using PSP.WebUI.Infrastructure.Abstract;
+using PSP.WebUI.Infrastructure.Concrete;
 
 namespace PSP.WebUI.Infrastructure
 {
@@ -34,8 +36,8 @@ namespace PSP.WebUI.Infrastructure
         private void AddBindings()
         {
             // Конфигурирование контейнера
-
             ninjectKernel.Bind<IRepository>().To<Repository>();
+            ninjectKernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
     }
 }
