@@ -1,40 +1,42 @@
 ﻿@model PSP.Domain.baseusers
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление пользователя";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Удаление пользователя</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Вы уверены, что хотите удалить пользователя??</h3>
 <fieldset>
-    <legend>baseusers</legend>
+    <legend>Удаляемый пользователь</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Login)
+        @Html.DisplayNameFor(model => model.Login)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Login)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Password)
+        @Html.DisplayNameFor(model => model.Password)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Password)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Group)
+        @Html.DisplayNameFor(model => model.Group)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Group)
     </div>
 </fieldset>
+
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Отмена", "Index")
     </p>
 }

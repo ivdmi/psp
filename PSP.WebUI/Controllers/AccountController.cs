@@ -8,9 +8,6 @@ using PSP.WebUI.Models;
 
 namespace PSP.WebUI.Controllers
 {
-    // Для разделения пользователей по ролям: администратор, менеджер, пользователь - 
-    // смотри "Создание провайдера ролей" на https://metanit.com/sharp/helpdeskmvc/3.1.php
-
     [AllowAnonymous]
     public class AccountController : Controller
     {
@@ -34,15 +31,14 @@ namespace PSP.WebUI.Controllers
             {
                 if (ValidateUser(model.UserName, model.Password))
                 {
-//                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    FormsAuthentication.SetAuthCookie(model.UserName, false);
+                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Request");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 else
@@ -59,26 +55,6 @@ namespace PSP.WebUI.Controllers
 
             return RedirectToAction("Login", "Account");
         }
-
-
-
-        //        }
-
-        //        if (authProvider.Authenticate(model.UserName, model.Password))
-        //        {
-        //            return Redirect(returnUrl ?? Url.Action("Index", "Admin"));
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError("", "Incorrect username or password");
-        //            return View();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
 
         private bool ValidateUser(string login, string password)
         {

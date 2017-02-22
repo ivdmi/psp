@@ -59,9 +59,7 @@ namespace PSP.WebUI.Controllers
             ViewBag.Roles = roles;
             return View(user);
         }
-
-
-
+        
         // GET: /BaseUser/Delete/5
         [Authorize(Roles = "admin")]
         public ActionResult Delete(string id = null)
@@ -85,14 +83,17 @@ namespace PSP.WebUI.Controllers
         }
 
         // GET: /BaseUser/Edit
+        [HttpGet]
         [Authorize(Roles = "admin")]
-        public ActionResult Edit(string id = null)
+        public ActionResult Edit(string id)
         {
             baseusers user = baseUsers.GetUser(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
+            SelectList roles = new SelectList(UserRoles.RolesList);
+            ViewBag.Roles = roles;
             return View(user);
         }
 
@@ -107,6 +108,8 @@ namespace PSP.WebUI.Controllers
                 baseUsers.UpdateUser(user);
                 return RedirectToAction("Index");
             }
+            SelectList roles = new SelectList(UserRoles.RolesList);
+            ViewBag.Roles = roles;
             return View(user);
         }
     }
