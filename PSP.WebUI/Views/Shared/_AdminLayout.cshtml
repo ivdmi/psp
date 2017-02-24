@@ -1,21 +1,40 @@
-﻿<!DOCTYPE html>
-
+﻿@{
+    ViewBag.Title = "Администрирование";
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link href="~/Content/Admin.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/"></script>
     <title></title>
 </head>
-<body>
-    <div>
-        @if (TempData["message"] != null)
-        {
-            <div class="Message">@TempData["message"]</div>
-        }
-        @RenderBody()
-    </div>
-</body>
+    <body data-spy="spyscroll" data-target="nav">
+        <h2>Администрирование</h2>
+            <ul class="nav nav-tabs">
+                <li>@Html.ActionLink("Сотрудники", "Index", "User")</li>
+                <li>@Html.ActionLink("Группы", "Index", "Group")</li>
+                <li>@Html.ActionLink("Пользователи БД", "Index", "BaseUser")</li>
+                <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+                <li>@Html.ActionLink("Log Off", "LogOff", "Account")</li>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                }
+            </ul>
+        <div class="col-lg-12 col-md-12">
+            @if (TempData["message"] != null)
+            {
+                <div class="Message">@TempData["message"]</div>
+            }
+            @RenderBody()
+        </div>
+    </body>
 </html>
+
+

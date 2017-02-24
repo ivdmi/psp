@@ -26,10 +26,18 @@ namespace PSP.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public string ID { get; set; }
+
+        [Required]
+        [Display(Name = "Наименование")]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Логин")]
         public string Login { get; set; }
+
+        [Required]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
-    
         public virtual ICollection<users> users { get; set; }
     }
 }

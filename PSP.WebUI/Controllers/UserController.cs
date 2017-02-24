@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using System.Web.Security;
 using PSP.Domain;
 using PSP.Domain.Abstract;
 using PSP.Domain.Concrete;
@@ -7,63 +10,64 @@ using PSP.Domain.Service;
 namespace PSP.WebUI.Controllers
 {
     [Authorize(Roles = "admin, manager, user")]
-    public class BaseUserController : Controller
+    public class UserController : Controller
     {
-        private BaseUsersService baseUsers;
+        private IRepository _repository;
 
-        private IRepository repository;
+//        private GroupService _groupService;
 
-        public BaseUserController(IRepository repositoryDi)
+        private UsersService _users;
+
+        public UserController(IRepository repositoryDi)
         {
-            repository = repositoryDi;
-            baseUsers = new BaseUsersService(repository);
+            _repository = repositoryDi;
+ //           _groupService = new GroupService(_repository);
+            _users = new UsersService(_repository);
         }
 
-        // GET: /BaseUser/
+        // GET: 
         public ViewResult Index()
         {
-            return View(baseUsers.GetAllBaseUsers());
+            return View(_users.GetAllusers());
         }
 
-        // GET: /BaseUser/Details/5
+        // GET: 
         public ViewResult Details(string id)
         {
-            var baseUser = baseUsers.GetUser(id);
-            return View(baseUser);
+            var user = _users.GetUser(id);
+            return View(user);
         }
 
-        // GET: /BaseUser/Create
+        // GET: 
         [HttpGet]
         [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
-            SelectList roles = new SelectList(UserRoles.RolesList);
-            ViewBag.Roles = roles;
+            ViewBag.GroupID = SelectList();
             return View();
         }
 
-        // POST: /BaseUser/Create
+        // POST: 
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(baseusers user)
+        public ActionResult Create(users user)
         {
             if (ModelState.IsValid)
             {
-                baseUsers.AddUser(user);
-                baseUsers.SaveChanges();
+                _users.AddUser(user);
+                _users.SaveChanges();
                 return RedirectToAction("Index");
-            }            
-            SelectList roles = new SelectList(UserRoles.RolesList);
-            ViewBag.Roles = roles;
+            }
+            ViewBag.GroupID = SelectList();
             return View(user);
         }
-        
-        // GET: /BaseUser/Delete
+
+        // GET: 
         [Authorize(Roles = "admin")]
         public ActionResult Delete(string id = null)
         {
-            baseusers user = baseUsers.GetUser(id);
+            users user = _users.GetUser(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -71,45 +75,53 @@ namespace PSP.WebUI.Controllers
             return View(user);
         }
 
-        // POST: /BaseUser/Delete
+        // POST: 
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            baseUsers.RemoveUser(id);
+            _users.RemoveUser(id);
             return RedirectToAction("Index");
         }
 
-        // GET: /BaseUser/Edit
+        // GET: 
         [HttpGet]
         [Authorize(Roles = "admin")]
         public ActionResult Edit(string id)
         {
-            baseusers user = baseUsers.GetUser(id);
+            users user = _users.GetUser(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
-            SelectList roles = new SelectList(UserRoles.RolesList);
-            ViewBag.Roles = roles;
+            ViewBag.GroupID = SelectList();
             return View(user);
         }
 
-        // POST: /BaseUser/Edit
+        // POST: 
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(baseusers user)
+        public ActionResult Edit(users user)
         {
             if (ModelState.IsValid)
             {
-                baseUsers.UpdateUser(user);
+                _users.UpdateUser(user);
                 return RedirectToAction("Index");
             }
-            SelectList roles = new SelectList(UserRoles.RolesList);
-            ViewBag.Roles = roles;
+            ViewBag.GroupID = SelectList();
             return View(user);
         }
+
+        private IEnumerable<SelectListItem> SelectList()
+        {
+            var _groupService = new GroupService(_repository);
+            IEnumerable<SelectListItem> selectList =
+            from s in _groupService.GetAllGroups()
+            select new SelectListItem { Text = s.Name, Value = s.ID };
+            return selectList;
+        }
+
     }
 }

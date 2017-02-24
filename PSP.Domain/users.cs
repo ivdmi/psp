@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace PSP.Domain
 {
     using System;
@@ -21,11 +23,16 @@ namespace PSP.Domain
         }
     
         public string ID { get; set; }
+        [Required]
+        [Display(Name = "Имя")]
         public string Name { get; set; }
+        
+        [Display(Name = "Контакты")]
         public string Contact { get; set; }
         public string GroupID { get; set; }
         public sbyte Hidden { get; set; }
-    
+
+        [Display(Name = "Группа")]
         public virtual groups groups { get; set; }
         public virtual ICollection<events> events { get; set; }
     }

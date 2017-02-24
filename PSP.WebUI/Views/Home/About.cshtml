@@ -21,7 +21,7 @@
             <h3 class="text-muted">@Html.ActionLink("Application Name", "Index", "Home")</h3>
             <h4>Навигационные панели</h4>
             <ul class="nav nav-justified">
-                <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = "active" })</li>
+                <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = "active"})</li>
                 <li>@Html.ActionLink("About", "About", "Home")</li>
             </ul>
         </div>
@@ -145,10 +145,6 @@
         </div>
     </div>
 
-
-
-
-
     <!-- Button HTML (to Trigger Modal) -->
 
     <a href="#myModal" role="button" class="btn btn-large btn-primary" data-toggle="modal">Launch Demo Modal</a>
@@ -212,16 +208,5 @@
     </script>
     }
 
-    @*$(document).ready(function () {
-    $(".btn").click(function () {
-    $("#myModal").modal('show');
-    });
-    });
-
-    $(document).ready(function () {
-    $('.dropdown-toggle').dropdown();
-    });
-
-    $('#modal').modal();*@
 
 </body>

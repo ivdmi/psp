@@ -1,0 +1,50 @@
+﻿@using PSP.Domain.Concrete
+@using PSP.Domain.Service
+@model PSP.Domain.users
+
+@{
+    ViewBag.Title = "Новый сотрудник";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Новый сотрудник</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Новый сотрудник</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Contact)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Contact)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.groups)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.GroupID, ViewBag.GroupID as SelectList)
+            @Html.ValidationMessageFor(model => model.groups)
+        </div>
+
+        <p>
+            <input type="submit" value="Добавить" />
+        </p>
+    </fieldset>
+}
+
+@Html.ActionLink("Отмена", "Index")
+
+

@@ -104,6 +104,7 @@
     <Compile Include="Service\DataService.cs" />
     <Compile Include="Service\GroupService.cs" />
     <Compile Include="Service\EventHelper.cs" />
+    <Compile Include="Service\UsersService.cs" />
     <Compile Include="users.cs">
       <DependentUpon>PspModel.tt</DependentUpon>
     </Compile>

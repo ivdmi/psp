@@ -18,16 +18,17 @@ namespace PSP.WebUI.Controllers
         // GET: /Home/
         private IRepository repository;
 
-        private GroupService groupService = new GroupService();
+        private GroupService groupService;
 
         public HomeController(IRepository paramRepository)
         {
             repository = paramRepository;
+            groupService = new GroupService(repository);
         }
 
         public ActionResult Index()
         {
-            return View(groupService.GetGroups());
+            return View(groupService.GetAllGroups());
         }
 
         public ActionResult AuditorStat()
@@ -59,6 +60,11 @@ namespace PSP.WebUI.Controllers
             return View(usersList);
         }
 
+        public ActionResult Admin()
+        {
+            return View();
+        }
+        
         public ActionResult Contact()
         {
             var user = repository.Users.FirstOrDefault();

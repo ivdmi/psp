@@ -5,12 +5,10 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Пользователи</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table>
+
+<table class="table-striped table-bordered table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Login)
@@ -40,16 +38,17 @@
                 </td>
             }
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.ID })
+                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "label label-info" })
                 @if (HttpContext.Current.User.IsInRole("admin"))
                 {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                </td>
+                    <label> </label>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "label label-primary" })
+                    <label> </label>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "label label-danger" })
                 }
-                </td>
-            </tr>
+            </td>
+        </tr>
     }
 
 </table>
+@Html.ActionLink("Создать пользователя", "Create", null, new { @class = "btn btn-info btn-sm" })

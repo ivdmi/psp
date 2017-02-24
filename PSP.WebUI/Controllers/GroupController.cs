@@ -2,104 +2,104 @@
 using System.Linq;
 using System.Web.Mvc;
 using PSP.Domain;
+using PSP.Domain.Abstract;
+using PSP.Domain.Service;
 
 namespace PSP.WebUI.Controllers
 {
     [Authorize(Roles = "admin")]
     public class GroupController : Controller
     {
-        private pspEntities db = new pspEntities();
+        private GroupService _groups;
 
+        private IRepository repository;
+
+        public GroupController(IRepository repositoryDi)
+        {
+            repository = repositoryDi;
+            _groups = new GroupService(repository);
+        }
 
         // GET: /Group/
         public ActionResult Index()
         {
-            return View(db.groups.ToList());
+            return View(_groups.GetAllGroups());
         }
 
         // GET: /Group/Details/
-        public ActionResult Details(string id = null)
+        public ActionResult Details(string id)
         {
-            groups groups = db.groups.Find(id);
-            if (groups == null)
-            {
-                return HttpNotFound();
-            }
-            return View(groups);
+            var group = _groups.GetGroupbyId(id);
+            return View(group);
         }
 
-        // GET: /Group/Create
+        [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /Group/Create
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(groups group)
         {
             if (ModelState.IsValid)
             {
-                db.groups.Add(group);
-                db.SaveChanges();
+                _groups.AddGroup(group);
+                _groups.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(group);
         }
 
-        // GET: /Group/Edit
-        public ActionResult Edit(string id = null)
+
+        [Authorize(Roles = "admin")]
+        public ActionResult Delete(string id = null)
         {
-            groups groups = db.groups.Find(id);
-            if (groups == null)
+            groups group = _groups.GetGroupbyId(id);
+            if (group == null)
             {
                 return HttpNotFound();
             }
-            return View(groups);
+            return View(group);
         }
 
-        // POST: /Group/Edit
+        // POST: /BaseUser/Delete
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            _groups.RemoveGroup(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public ActionResult Edit(string id)
+        {
+            groups group = _groups.GetGroupbyId(id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+            return View(group);
+        }
+
+        // POST: /BaseUser/Edit
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(groups group)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(group).State = EntityState.Modified;
-                db.SaveChanges();
+                _groups.UpdateGroup(group);
                 return RedirectToAction("Index");
             }
             return View(group);
-        }
-
-        // GET: /Group/Delete
-        public ActionResult Delete(string id = null)
-        {
-            groups groups = db.groups.Find(id);
-            if (groups == null)
-            {
-                return HttpNotFound();
-            }
-            return View(groups);
-        }
-
-        // POST: /Group/Delete
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            groups groups = db.groups.Find(id);
-            db.groups.Remove(groups);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

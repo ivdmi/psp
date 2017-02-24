@@ -1,0 +1,41 @@
+﻿@using Microsoft.Ajax.Utilities
+@model PSP.Domain.users
+
+@{
+    ViewBag.Title = "Удаление учетной записи сотрудника";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Удалить учетную запись сотрудника</h2>
+
+<fieldset>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Contact)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Contact)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.groups.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.groups.Name)
+    </div>
+</fieldset>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <p>
+        <input class="btn btn-danger" type="submit" value="Удалить" /> 
+        @Html.ActionLink("Отмена", "Index", null, new {@class="btn btn-info"})
+    </p>
+}
