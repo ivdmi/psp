@@ -14,8 +14,6 @@ namespace PSP.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
         private IRepository repository;
 
         private GroupService groupService;
@@ -27,8 +25,6 @@ namespace PSP.WebUI.Controllers
         };
 
         private CloseMonthService closeMonthService;
-
-        //      private CloseMonthService closeMonthService = new CloseMonthService(closeMonthData, repository);
 
         public HomeController(IRepository paramRepository)
         {

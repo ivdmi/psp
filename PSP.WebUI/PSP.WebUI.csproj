@@ -135,6 +135,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuditorEventController.cs" />
     <Compile Include="Controllers\BaseUserController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -142,7 +143,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AuditorEvents.cs" />
     <Compile Include="Helpers\CloseMonthService.cs" />
+    <Compile Include="Helpers\DateTimeUtils.cs" />
     <Compile Include="Helpers\FactoryStatistics.cs" />
     <Compile Include="Helpers\AuditorStatistics.cs" />
     <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
@@ -296,6 +299,7 @@
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Home\CloseMonth.cshtml" />
+    <Content Include="Views\AuditorEvent\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
