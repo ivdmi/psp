@@ -11,30 +11,32 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/"></script>
+    @Scripts.Render("~/bundles/jquerymaskedinput")
     <title></title>
 </head>
-    <body data-spy="spyscroll" data-target="nav">
-        <h2>Администрирование</h2>
-            <ul class="nav nav-tabs">
-                <li>@Html.ActionLink("Сотрудники", "Index", "User")</li>
-                <li>@Html.ActionLink("Группы", "Index", "Group")</li>
-                <li>@Html.ActionLink("Пользователи БД", "Index", "BaseUser")</li>
-                <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-                <li>@Html.ActionLink("Log Off", "LogOff", "Account")</li>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-                }
-            </ul>
-        <div class="col-lg-12 col-md-12">
-            @if (TempData["message"] != null)
-            {
-                <div class="Message">@TempData["message"]</div>
-            }
-            @RenderBody()
-        </div>
-    </body>
+<body data-spy="spyscroll" data-target="nav">
+    <h2>Администрирование</h2>
+    <ul class="nav nav-tabs">
+        <li>@Html.ActionLink("Сотрудники", "Index", "User")</li>
+        <li>@Html.ActionLink("Группы", "Index", "Group")</li>
+        <li>@Html.ActionLink("Пользователи БД", "Index", "BaseUser")</li>
+        <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+        <li>@Html.ActionLink("Log Off", "LogOff", "Account")</li>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+        }
+    </ul>
+    <div class="col-lg-12 col-md-12">
+        @if (TempData["message"] != null)
+        {
+            <div class="Message">@TempData["message"]</div>
+        }
+        @RenderBody()
+    </div>
+</body>
 </html>
 
 

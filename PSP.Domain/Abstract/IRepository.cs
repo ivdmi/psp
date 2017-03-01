@@ -12,6 +12,7 @@ namespace PSP.Domain.Abstract
         IQueryable<baseusers> BaseUsers { get; }
         IQueryable<events> Events { get; }
         IQueryable<history> HistoryList { get; }
+        IQueryable<companyanalysis> CompanyAnalysis { get; }
 
     }
 }

@@ -47,5 +47,10 @@ namespace PSP.Domain.Concrete
         {
             get { return Context.history; }
         }
+
+        public IQueryable<companyanalysis> CompanyAnalysis
+        {
+            get { return Context.companyanalysis; }
+        }
     }
 }

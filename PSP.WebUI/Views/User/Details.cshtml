@@ -1,5 +1,37 @@
-﻿@{
+﻿@model PSP.Domain.users
+
+@{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Сведения о сотруднике</h2>
+
+<fieldset>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Contact)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Contact)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.groups.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.groups.Name)
+    </div>
+
+</fieldset>
+<p>
+    @if (HttpContext.Current.User.IsInRole("admin"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+    }
+    @Html.ActionLink("Back to List", "Index")
+</p>

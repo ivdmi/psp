@@ -28,7 +28,8 @@ namespace PSP.Domain
         public string ID { get; set; }
 
         [Required]
-        [Display(Name = "Наименование")]
+        [Display(Name = "Наименование группы")]
+        [MaxLength(50, ErrorMessage = "Превышена максимальная длина записи")]
         public string Name { get; set; }
 
         [Required]

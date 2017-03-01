@@ -142,10 +142,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CloseMonthService.cs" />
     <Compile Include="Helpers\FactoryStatistics.cs" />
     <Compile Include="Helpers\AuditorStatistics.cs" />
     <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
     <Compile Include="Infrastructure\Concrete\FormsAuthProvider.cs" />
+    <Compile Include="Models\CloseMonthModel.cs" />
+    <Compile Include="Models\GridViewDataAuditorCloseMonthRowInfo.cs" />
     <Compile Include="Models\GridViewDataAuditorRowInfo.cs" />
     <Compile Include="Models\GridViewDataFactoryRowInfo.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
@@ -245,6 +248,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -290,6 +295,7 @@
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Home\CloseMonth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

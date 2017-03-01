@@ -10,6 +10,4 @@
         public string TotalMinutes { get; set; }
         public string Factories { get; set; }
     }
-
-
 }

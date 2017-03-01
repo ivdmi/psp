@@ -20,37 +20,26 @@ namespace PSP.WebUI.Controllers
 
         private GroupService groupService;
 
+        private CloseMonthModel closeMonthData = new CloseMonthModel
+        {
+            Month = DateTime.Now.Month,
+            Year = DateTime.Now.Year
+        };
+
+        private CloseMonthService closeMonthService;
+
+        //      private CloseMonthService closeMonthService = new CloseMonthService(closeMonthData, repository);
+
         public HomeController(IRepository paramRepository)
         {
             repository = paramRepository;
             groupService = new GroupService(repository);
+            closeMonthService = new CloseMonthService(repository);
         }
 
         public ActionResult Index()
         {
             return View(groupService.GetAllGroups());
-        }
-
-        public ActionResult AuditorStat()
-        {
-            DateTime StartDate = DateTime.Parse("1/12/2016");
-            DateTime EndDate = DateTime.Parse("31/12/2016");
-            AuditorStatistics statistics = new AuditorStatistics(repository);
-            var auditorStatisticsResult = statistics.Get(StartDate, EndDate);
-            ViewBag.StartDate = StartDate.ToShortDateString();
-            ViewBag.EndDate = EndDate.ToShortDateString();
-            return View(auditorStatisticsResult);
-        }
-
-        public ActionResult FactoryStat()
-        {
-            DateTime StartDate = DateTime.Parse("1/12/2016");
-            DateTime EndDate = DateTime.Parse("31/12/2016");
-            FactoryStatistics statistics =  new FactoryStatistics(repository);
-            var factoryStatisticResult = statistics.Get(StartDate, EndDate);
-            ViewBag.StartDate = StartDate.ToShortDateString();
-            ViewBag.EndDate = EndDate.ToShortDateString();
-            return View(factoryStatisticResult);
         }
 
         public ActionResult About()
@@ -60,11 +49,11 @@ namespace PSP.WebUI.Controllers
             return View(usersList);
         }
 
-        public ActionResult Admin()
-        {
-            return View();
-        }
-        
+        //public ActionResult Admin()
+        //{
+        //    return View();
+        //}
+
         public ActionResult Contact()
         {
             var user = repository.Users.FirstOrDefault();
@@ -83,7 +72,6 @@ namespace PSP.WebUI.Controllers
             return PartialView(details);
         }
 
-        
         public ActionResult UserInfo(string us)
         {
             var user = repository.Users.FirstOrDefault(u => u.ID.Contains(us));
@@ -96,6 +84,65 @@ namespace PSP.WebUI.Controllers
         public ActionResult UserInfo()
         {
             return RedirectToAction("Index");
+        }
+
+        public ActionResult AuditorStat()
+        {
+            DateTime StartDate = DateTime.Parse("1/12/2016");
+            DateTime EndDate = DateTime.Parse("31/12/2016");
+            AuditorStatistics statistics = new AuditorStatistics(repository);
+            var auditorStatisticsResult = statistics.Get(StartDate, EndDate);
+            ViewBag.StartDate = StartDate.ToShortDateString();
+            ViewBag.EndDate = EndDate.ToShortDateString();
+            return View(auditorStatisticsResult);
+        }
+
+        public ActionResult FactoryStat()
+        {
+            DateTime StartDate = DateTime.Parse("1/12/2016");
+            DateTime EndDate = DateTime.Parse("31/12/2016");
+            FactoryStatistics statistics = new FactoryStatistics(repository);
+            var factoryStatisticResult = statistics.Get(StartDate, EndDate);
+            ViewBag.StartDate = StartDate.ToShortDateString();
+            ViewBag.EndDate = EndDate.ToShortDateString();
+            return View(factoryStatisticResult);
+        }
+
+        // GET: /Home/CloseMonth
+        public ActionResult CloseMonth()
+        {
+            List<string> factories = closeMonthService.GetFactoryList(closeMonthData.Year, closeMonthData.Month);
+            closeMonthData.AuditorsMonthList = closeMonthService.GetAuditorsTable(closeMonthData.Year, closeMonthData.Month, factories);
+            ViewBag.Factories = new SelectList(factories);
+            return View(closeMonthData);
+        }
+
+        // POST: /Home/CloseMonth
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult CloseMonth(CloseMonthModel dataModel)
+        {
+            closeMonthData = dataModel;
+            List<string> factories = closeMonthService.GetFactoryList(closeMonthData.Year, closeMonthData.Month);
+            ViewBag.Factories = new SelectList(factories);
+            if (ModelState.IsValid)
+            {
+                //closeMonthData = dataModel;
+                //List<string> factories = closeMonthService.GetFactoryList(closeMonthData.Year, closeMonthData.Month);
+                //ViewBag.Factories = new SelectList(factories);
+                if (factories.Contains(dataModel.SelectedFactory))
+                    closeMonthData.SelectedFactory = dataModel.SelectedFactory;
+                else
+                {
+                    closeMonthData.SelectedFactory = factories.FirstOrDefault();
+                }
+                closeMonthData.AuditorsMonthList = closeMonthService.GetAuditorsTable(
+                    closeMonthData.Year, closeMonthData.Month, factories, closeMonthData.SelectedFactory);
+                return View(closeMonthData);
+            }
+
+            return View();
         }
     }
 }

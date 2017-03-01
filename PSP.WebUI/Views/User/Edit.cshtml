@@ -5,7 +5,15 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+
 <h2>Редактирование учетной записи сотрудника</h2>
+
+<input type="text" id="txtNumber" class="input-lg" />
 
 @using (Html.BeginForm())
 {
@@ -13,8 +21,6 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Пользователь</legend>
-
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
         </div>
@@ -26,7 +32,7 @@
             @Html.LabelFor(model => model.Contact)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Contact)
+            @Html.EditorFor(model => model.Contact, new { @class = "input-medium" })
         </div>
 
         <div class="editor-label">
@@ -48,4 +54,11 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $("#Contact").mask("999-99-9999");
+    });
+
+</script>
 
