@@ -18,10 +18,10 @@ namespace PSP.Domain.Service
             _entities = repository;
         }
        
-        public List<users> GetAllUsers()
-        {
-            return _entities.Users.ToList();
-        }
+        //public List<users> GetAllUsers()
+        //{
+        //    return _entities.Users.ToList();
+        //}
         
         // Получение всех событий за промежуток времени
         public List<events> GetEventsByDate(DateTime start, DateTime end)

@@ -29,7 +29,7 @@ namespace PSP.WebUI.Controllers
 
         public ActionResult Index()
         {
-            var row = auditorEvents.GetAuditorEventList(DateTime.Now);
+            var eventList = auditorEvents.GetAuditorEventList(DateTime.Now);
             return View(groupService.GetAllGroups());
         }
 

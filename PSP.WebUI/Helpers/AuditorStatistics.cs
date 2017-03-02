@@ -11,10 +11,12 @@ namespace PSP.WebUI.Helpers
 {
     public class AuditorStatistics
     {
+        private UsersService usersService;
         private DataService dataService;
         public AuditorStatistics(IRepository repository)
         {
             dataService = new DataService(repository);
+            usersService = new UsersService(repository);
         }
         
         private class AuditorStatsItem
@@ -100,14 +102,14 @@ namespace PSP.WebUI.Helpers
         // Значительно дольше чем Func<string, string> GetAuditorName = K => (from User in AllUsers where User.ID.ToLower() == K.ToLower() select User.Name).FirstOrDefault();
         private string GetAuditorByIdName(string Id)
         {
-            var user = dataService.GetAllUsers().FirstOrDefault(item => item.ID.Equals(Id));
+            var user = usersService.GetAllUsers().FirstOrDefault(item => item.ID.Equals(Id));
             return user == null ? string.Empty : user.Name;
         }
 
         public List<GridViewDataAuditorRowInfo> Get(DateTime startDate, DateTime endDate)
         {
             // Получить всех пользователей и все события за промежуток времени
-            List<users> AllUsers = dataService.GetAllUsers();
+            List<users> AllUsers = usersService.GetAllUsers();
             List<events> AllEvents = dataService.GetEventsByDate(startDate, endDate);
 
             // Получить имя аудитора по идентификатору

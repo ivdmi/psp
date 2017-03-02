@@ -22,7 +22,8 @@ namespace PSP.Domain.Service
         public void RemoveUser(string id)
         {
             var usr = _entities.Context.users.Find(id);
-            _entities.Context.users.Remove(usr);
+            usr.Hidden = 1;
+ //           _entities.Context.users.Remove(usr);
             SaveChanges();
         }
 
@@ -43,9 +44,14 @@ namespace PSP.Domain.Service
             _entities.Context.SaveChanges();
         }
 
-        public IList<users> GetAllusers()
+        public List<users> GetAllUsers()
         {
             return _entities.Users.ToList();
+        }
+
+        public List<users> GetActiveUsers()
+        {
+            return _entities.Users.Where(u=>u.Hidden==0).ToList();
         }
     }
 }

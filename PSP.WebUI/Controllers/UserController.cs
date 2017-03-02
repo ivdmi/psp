@@ -14,21 +14,18 @@ namespace PSP.WebUI.Controllers
     {
         private IRepository _repository;
 
-//        private GroupService _groupService;
-
         private UsersService _users;
 
         public UserController(IRepository repositoryDi)
         {
             _repository = repositoryDi;
- //           _groupService = new GroupService(_repository);
             _users = new UsersService(_repository);
         }
 
         // GET: 
         public ViewResult Index()
         {
-            return View(_users.GetAllusers());
+            return View(_users.GetActiveUsers());
         }
 
         // GET: 
@@ -63,7 +60,7 @@ namespace PSP.WebUI.Controllers
             return View(user);
         }
 
-        // GET: 
+        // GET: Delete
         [Authorize(Roles = "admin")]
         public ActionResult Delete(string id = null)
         {
@@ -75,7 +72,7 @@ namespace PSP.WebUI.Controllers
             return View(user);
         }
 
-        // POST: 
+        // POST: Delete
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]

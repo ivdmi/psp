@@ -23,7 +23,7 @@
                         <h4>@group.Name</h4>
                     </div>
                     <div class="list-group">
-                        @foreach (var user in group.users.ToList())
+                        @foreach (var user in group.users.Where(u=>u.Hidden==0).OrderBy(u=>u.Name).ToList())
                         {
                             {
                                 @Html.ActionLink(user.Name, "UserInfo", "Home", new { us = user.ID }, new { @class = "list-group-item modal-link", title = "Add Note" })

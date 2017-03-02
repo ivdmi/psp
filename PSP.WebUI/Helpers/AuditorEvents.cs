@@ -56,6 +56,30 @@ namespace PSP.WebUI.Helpers
             return row;
         }
 
+        private RowMonth GetTable()
+        {
+            RowMonth row = new RowMonth();
+            int Year = StartDate.Year;
+            int Month = StartDate.Month;
+            int Day = StartDate.Day;
+
+            row.Columns.Add("Ф.И.О.");
+            for (int i = 0; i < (EndDate - StartDate).Days + 2; i++)
+            {
+                row.Columns.Add(Day.ToString());
+                if (Day >= DateTimeUtils.DaysInMonth(Year, Month))
+                {
+                    Day = 1;
+                    DateTime Next = DateTimeUtils.GetNextMonth(new DateTime(Year, Month, 1));
+                    Year = Next.Year;
+                    Month = Next.Month;
+                }
+                else
+                    Day++;
+            }
+            return row;
+        }
+
         public List<RowMonth> GetAuditorEventList(DateTime startDate)
         {
             StartDate = startDate;

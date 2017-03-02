@@ -111,7 +111,7 @@ namespace PSP.WebUI.Helpers
             }
 
             var usersDictionary = new Dictionary<string, string>();
-            users[] usersArray = new UsersService(_repository).GetAllusers().ToArray();
+            users[] usersArray = new UsersService(_repository).GetAllUsers().ToArray();
             foreach (users user in usersArray)
             {
                 usersDictionary[user.ID] = user.Name;

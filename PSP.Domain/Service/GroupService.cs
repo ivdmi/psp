@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using PSP.Domain.Abstract;
 using PSP.Domain.Concrete;
@@ -49,6 +50,21 @@ namespace PSP.Domain.Service
         public IList<groups> GetAllGroups()
         {
             return _entities.Groups.ToList();
+        }
+
+        // НЕ РАБОТАЕТ - УТОЧНИТЬ У АНЮТКИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        public IList<groups> GetGroupsWithActiveUsers()
+        {
+            IList<groups> grpSelected = new List<groups>();
+
+            foreach (var group in _entities.Groups)
+            {
+                var usersActive = group.users.Where(us => us.Hidden == 0);
+                group.users = usersActive.ToList();
+                grpSelected.Add(group);
+            }
+
+            return grpSelected;
         }
 
         public IList<string> GetAllGroupsNames()

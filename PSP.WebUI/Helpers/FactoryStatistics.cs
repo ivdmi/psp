@@ -12,9 +12,12 @@ namespace PSP.WebUI.Helpers
     public class FactoryStatistics
     {
         private DataService dataService;
+        private UsersService usersService;
+
         public FactoryStatistics(IRepository repository)
         {
             dataService = new DataService(repository);
+            usersService = new UsersService(repository);
         }
         private class FactoryStatsItem
         {
@@ -70,7 +73,7 @@ namespace PSP.WebUI.Helpers
         public List<GridViewDataFactoryRowInfo> Get(DateTime startDate, DateTime endDate)
         {
             // Получить всех пользователей и все события за промежуток времени
-            List<users> AllUsers = dataService.GetAllUsers();
+            List<users> AllUsers = usersService.GetAllUsers();
             List<events> AllEvents = dataService.GetEventsByDate(startDate, endDate);
 
             var factoryStats = new List<FactoryStatsItem>();
