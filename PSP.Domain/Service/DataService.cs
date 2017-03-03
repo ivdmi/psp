@@ -26,8 +26,14 @@ namespace PSP.Domain.Service
         // Получение всех событий за промежуток времени
         public List<events> GetEventsByDate(DateTime start, DateTime end)
         {
-            // List<events> Events = _entities.Events.Find(P => P.Date >= Start && P.Date <= End).ToList();
             var events = _entities.Events.Where(ev => ev.Date >= start && ev.Date <= end).ToList();
+            return events;
+        }
+
+        // Получение всех событий за промежуток времени
+        public List<events> GetEventsByDateAndUserId(DateTime start, DateTime end, string Id)
+        {
+            var events = _entities.Events.Where(ev => ev.UserID.Contains(Id) && ev.Date >= start && ev.Date <= end).OrderBy(m=>m.Date).ToList();
             return events;
         }
 

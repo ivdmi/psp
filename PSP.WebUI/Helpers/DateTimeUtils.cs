@@ -101,5 +101,10 @@ namespace PSP.WebUI.Helpers
             return EndDate;
         }
 
+        public static bool CheckWeekendByColumn(int column, DateTime startDate)
+        {
+            return DateTimeUtils.IsWeekend(startDate.AddDays(column));
+        }
+
     }
 }

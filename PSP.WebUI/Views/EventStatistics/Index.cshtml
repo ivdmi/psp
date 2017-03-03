@@ -1,0 +1,48 @@
+﻿@using PSP.Domain
+@model List<PSP.WebUI.Models.EventGroupModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+
+<h2>События аудиторов @ViewBag.Month.ToString() @ViewBag.Year.ToString()</h2>
+
+<body>
+    <table class="table-bordered table-hover">
+        <thead>
+            <tr>
+                @foreach (var cell in ViewBag.Header)
+                {
+                    <td style="width: 25px">
+                        @cell
+                    </td>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var group in Model)
+            {
+                <tr class="warning">
+                    <th colspan="@ViewBag.Count" style="background-color: bisque">
+                        @group.GroupName
+                    </th>
+                </tr>
+
+                foreach (var user in group.Users)
+                {
+                    <tr style="height: 25px">
+                        <td style="width: 150px">
+                            @user.UserName
+                        </td>
+                        @foreach (var cell in user.Cells)
+                        {
+                            <td style="width: 25px; background-color: @cell.BackColor.Name "></td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</body>
