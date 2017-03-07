@@ -64,17 +64,28 @@ namespace PSP.WebUI.Models
             if (Array.Length >= 4)
             {
                 Factory = Array[0];
-                Begin = Convert.ToDateTime(Array[1]);
-                End = Convert.ToDateTime(Array[2]);
-                Key = Convert.ToInt32(Array[3]);
-                if (Array.Length > 4)
+                DateTime begin = new DateTime();
+                DateTime end = new DateTime();
+                short key;
+                if (DateTime.TryParse(Array[1], out begin) && DateTime.TryParse(Array[2], out end) && Int16.TryParse(Array[3], out key))                
+                {
+                    Begin = begin;
+                    End = end;
+                    Key = key;
+//                  Begin = Convert.ToDateTime(Array[1]);
+//                  End = Convert.ToDateTime(Array[2]);
+            }
+                else
+                {
+                    return false;
+                }
+            
+            if (Array.Length > 4)
                     Comment = Convert.ToString(Array[4]);
 
                 return true;
             }
             return false;
         }
-
     }
-
 }

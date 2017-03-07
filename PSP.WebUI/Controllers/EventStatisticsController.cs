@@ -29,7 +29,7 @@ namespace PSP.WebUI.Controllers
 
         public ActionResult Index()
         {
-            DateTime date = DateTime.Now.AddDays(-92);
+            DateTime date = DateTime.Now.AddDays(-64);
    //         DateTime date = DateTime.Now;
             List<string> header = auditorEvents.GetHeaderLine(date);
             ViewBag.Header = header;

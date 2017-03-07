@@ -186,7 +186,7 @@ namespace PSP.WebUI.Helpers
                 cell.BackColor = EventHelper.States[Event.State].NetColor;
                 cell.Text = "";
 
-                var Builder = new StringBuilder("Предприятия\r\n");
+                var Builder = new StringBuilder("Предприятия\n");
                 string[] Splitted = Event.FactoryList.Split(';');
                 foreach (string S in Splitted)
                 {
@@ -196,11 +196,12 @@ namespace PSP.WebUI.Helpers
                     int Key;
                     string Comm;
                     if (FactoryListBoxItem.UnpackFromString(S, out Fact, out Beg, out End, out Key, out Comm))
-                        Builder.AppendFormat("{0} - {1}\r\n", Fact, EventHelper.States[Key].Name);
+                        Builder.AppendFormat("{0} - {1}\n", Fact, EventHelper.States[Key].Name);
                 }
                 cell.ToolTipText = Builder.ToString();
             }
 
+                // &#013
             else if (DateTimeUtils.CheckWeekendByColumn(column, StartDate))
             {
                 cell.BackColor = Color.LightPink;
