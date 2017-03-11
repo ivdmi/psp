@@ -11,16 +11,8 @@ namespace PSP.Domain.Service
     {
         public class StateElement
         {
-            private string StateName;
-            public new string Name
-            {
-                get { return StateName; }
-                set
-                {
-                    StateName = value;
-                    //Text = value;
-                }
-            }
+            public new string Name { get; set; }
+
             public int Key { set; get; }
             public Color NetColor { set; get; }
             public override string ToString() { return Name; }

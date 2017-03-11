@@ -135,7 +135,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\EventStatisticsController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\BaseUserController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -143,7 +143,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\EventStatistics.cs" />
+    <Compile Include="Helpers\EventService.cs" />
     <Compile Include="Helpers\CloseMonthService.cs" />
     <Compile Include="Helpers\DateTimeUtils.cs" />
     <Compile Include="Helpers\FactoryStatistics.cs" />
@@ -151,12 +151,16 @@
     <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
     <Compile Include="Infrastructure\Concrete\FormsAuthProvider.cs" />
     <Compile Include="Models\CloseMonthModel.cs" />
+    <Compile Include="Models\ElementaryActivity.cs" />
     <Compile Include="Models\EventGroupModel.cs" />
-    <Compile Include="Models\EventUser.cs" />
+    <Compile Include="Models\EventsOfDay.cs" />
+    <Compile Include="Models\EventsOfDayViewModel.cs" />
+    <Compile Include="Models\EventsUserOfPeriod.cs" />
     <Compile Include="Models\FactoryListBoxItem.cs" />
     <Compile Include="Models\GridViewDataAuditorCloseMonthRowInfo.cs" />
     <Compile Include="Models\GridViewDataAuditorRowInfo.cs" />
     <Compile Include="Models\GridViewDataFactoryRowInfo.cs" />
+    <Compile Include="Models\ListModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\UsersTreeView.cs" />
@@ -302,7 +306,9 @@
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Home\CloseMonth.cshtml" />
-    <Content Include="Views\EventStatistics\Index.cshtml" />
+    <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\Event\DayEvents.cshtml" />
+    <Content Include="Views\Event\BoardEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

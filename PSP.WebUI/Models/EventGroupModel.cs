@@ -9,10 +9,10 @@ namespace PSP.WebUI.Models
     {
         public EventGroupModel()
         {
-            Users = new List<EventUser>();
+            Users = new List<EventsUserOfPeriod>();
         }
 
         public string GroupName { get; set; }
-        public IList<EventUser> Users { get; set; }
+        public IList<EventsUserOfPeriod> Users { get; set; }
     }
 }

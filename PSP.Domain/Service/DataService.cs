@@ -37,11 +37,28 @@ namespace PSP.Domain.Service
             return events;
         }
 
+        public events GetEventsByDayAndUserId(DateTime date, string Id)
+        {
+            var events = _entities.Events.FirstOrDefault(ev => ev.UserID.Contains(Id) && ev.Date == date);
+            return events;
+        }
+
         // Значительно дольше чем Func<string, string> GetAuditorName = K => (from User in AllUsers where User.ID.ToLower() == K.ToLower() select User.Name).FirstOrDefault();
         public string GetAuditorNameByIdService(string ident)
         {
             var user = _entities.Users.FirstOrDefault(item => item.ID.Equals(ident));
             return user == null ? string.Empty : user.Name;
+        }
+
+        public void UpdateEvent(events _event)
+        {
+            _entities.Context.Entry(_event).State = EntityState.Modified;
+            SaveChanges();
+        }
+
+        public void SaveChanges()
+        {
+            _entities.Context.SaveChanges();
         }
     }
 }

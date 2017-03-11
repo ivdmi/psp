@@ -1,10 +1,8 @@
-﻿@using PSP.Domain
-@model List<PSP.WebUI.Models.EventGroupModel>
+﻿@model List<PSP.WebUI.Models.EventGroupModel>
 
 @{
     ViewBag.Title = "Index";
 }
-<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
 
 <h2>События аудиторов @ViewBag.Month.ToString() @ViewBag.Year.ToString()</h2>
 
@@ -39,7 +37,7 @@
                         @foreach (var cell in user.Cells)
                         {
                             string t2 = @cell.ToolTipText;
-                            <td onclick="location.href='@Url.Action("Index","Home")'" data-toggle="tooltip" title='@t2' style="width: 25px; background-color: @cell.BackColor.Name">
+                            <td onclick="location.href='@Url.Action("BoardEvents", "Event", new { userId = user.UserId, dateParam = cell.Date })'" data-toggle="tooltip" title='@t2' style="width: 25px; background-color: @cell.BackColor.Name">
                             </td>
                         }
                     </tr>
@@ -49,22 +47,12 @@
     </table>
 </body>
 
-<script>
+@*Рабочий скрипт для тестирования*@
+
+@*<script>
     $(document).ready(function () {
-        $('tr#1').click(function () {
+        $('td').click(function () {
             alert('Нажата кнопка');
         });
     });
-</script>
-
-@*<script>
-        $(document).ready(function() {
-            $('table.values tr').bind('click', function() {
-                var taskID = $(this).find('input.rowID').val();
-                $.get("/Home/Index/", {
-                    id: taskID }, function() {
-                    document.location.href = '/Home/Index/' + taskID;
-                });
-            });
-        });
-    </script>*@
+</script>*@

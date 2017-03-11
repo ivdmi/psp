@@ -1,23 +1,19 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using PSP.Domain;
 
 namespace PSP.WebUI.Models
 {
-    public class EventUser
+    public class EventsUserOfPeriod
     {
-        public EventUser()
+        public EventsUserOfPeriod()
         {
- //           DaysList = new List<string>();
             Cells = new List<CellElement>();
         }
         public string UserName { get; set; }
-//        public IList<string> DaysList { get; set; }
-
-  //      public IList<events> EventsList { get; set; }
+        public string UserId { get; set; }
         public IList<CellElement> Cells { get; set; }
-
-
     }
 
     public class CellElement
@@ -29,5 +25,6 @@ namespace PSP.WebUI.Models
         public Color BackColor2 { get; set; }
         public bool DrawFill { get; set; }
         public int ColumnIndex { get; set; }
+        public DateTime Date { get; set; }
     }
 }

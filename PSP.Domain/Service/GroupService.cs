@@ -84,5 +84,11 @@ namespace PSP.Domain.Service
         {
             _entities.Context.SaveChanges();
         }
+
+        public string GetUserNameById(string id)
+        {
+            var firstOrDefault = _entities.Users.FirstOrDefault(g => g.ID.Equals(id));
+            return firstOrDefault != null ? firstOrDefault.Name : null;
+        }
     }
 }
