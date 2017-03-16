@@ -17,12 +17,12 @@ namespace PSP.Domain.Service
         {
             _entities = repository;
         }
-       
+
         //public List<users> GetAllUsers()
         //{
         //    return _entities.Users.ToList();
         //}
-        
+
         // Получение всех событий за промежуток времени
         public List<events> GetEventsByDate(DateTime start, DateTime end)
         {
@@ -33,7 +33,7 @@ namespace PSP.Domain.Service
         // Получение всех событий за промежуток времени
         public List<events> GetEventsByDateAndUserId(DateTime start, DateTime end, string Id)
         {
-            var events = _entities.Events.Where(ev => ev.UserID.Contains(Id) && ev.Date >= start && ev.Date <= end).OrderBy(m=>m.Date).ToList();
+            var events = _entities.Events.Where(ev => ev.UserID.Contains(Id) && ev.Date >= start && ev.Date <= end).OrderBy(m => m.Date).ToList();
             return events;
         }
 
@@ -54,6 +54,20 @@ namespace PSP.Domain.Service
         {
             _entities.Context.Entry(_event).State = EntityState.Modified;
             SaveChanges();
+        }
+        public void AddEvent(events _event)
+        {
+            _entities.Context.events.Add(_event);
+            if (_event.ID != null && _event.ID != "00000000-0000-0000-0000-000000000000")
+            {
+                SaveChanges();
+            }
+        }
+
+        public string[] GetFactoryList()
+        {
+            var factories = _entities.Clients.Select(c => c.Company).OrderBy(c => c).ToArray();
+            return factories;
         }
 
         public void SaveChanges()

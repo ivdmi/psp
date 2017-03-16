@@ -46,14 +46,11 @@
         @Html.HiddenFor(model => model.ID)
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Сохранить" class="btn btn-info btn-sm" />
+            @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 <script type="text/javascript">
     jQuery(function ($) {

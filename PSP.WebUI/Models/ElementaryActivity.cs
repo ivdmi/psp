@@ -12,9 +12,10 @@ namespace PSP.WebUI.Models
         
         public DateTime TimeTo { get; set; }
         [Required]
-        [Range(0, 6)]
+        [Range(0, 6, ErrorMessage = "Интервал от 0 до 6")]
         public int ActivityKey { get; set; }
-
+        
+        [Display(Name = "Комментарии")]
         public string Comment { get; set; }
 
         //[Required]

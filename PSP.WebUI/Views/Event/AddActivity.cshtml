@@ -1,0 +1,65 @@
+﻿@model PSP.WebUI.Models.ElementaryActivity
+
+@{
+    ViewBag.Title = "AddActivity";
+}
+
+<h2>Добавить событие</h2>
+
+@using (Html.BeginForm("AddActivity", "Event", new { date = @ViewBag.Date, userId = @ViewBag.UserId }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Factory)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Factory)
+            @Html.ValidationMessageFor(model => model.Factory)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TimeFrom)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TimeFrom)
+            @Html.ValidationMessageFor(model => model.TimeFrom)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TimeTo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TimeTo)
+            @Html.ValidationMessageFor(model => model.TimeTo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ActivityKey)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(m => m.ActivityKey, new SelectList(@ViewBag.States, "Key", "Name"))
+            @Html.ValidationMessageFor(model => model.ActivityKey)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Comment)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Comment)
+            @Html.ValidationMessageFor(model => model.Comment)
+        </div>
+
+        <p>
+            <input type="submit" value="Добавить" class="btn btn-info btn-sm"/>
+            @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })
+        </p>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -34,13 +34,13 @@
             </td>
 
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-default btn-xs" })
+                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "label label-info" })
                 @if (HttpContext.Current.User.IsInRole("admin"))
                 {
                     <label> </label>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default btn-xs" })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "label label-primary" })
                     <label> </label>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger btn-xs" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "label label-danger" })
                 }
             </td>
         </tr>

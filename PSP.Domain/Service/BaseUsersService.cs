@@ -31,8 +31,9 @@ namespace PSP.Domain.Service
         /// <returns></returns>
         public void RemoveUser(string id)
         {
-            var usr = _entities.Context.baseusers.Find(id);
-            _entities.Context.baseusers.Remove(usr);
+//            var usr = _entities.Context.baseusers.Find(id);
+            var usr = _entities.Context.baseusers.FirstOrDefault(u => u.ID == id);
+            if (usr != null) _entities.Context.baseusers.Remove(usr);
             SaveChanges();
         }
 

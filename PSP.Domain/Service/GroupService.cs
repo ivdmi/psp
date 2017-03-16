@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using PSP.Domain.Abstract;
-using PSP.Domain.Concrete;
 
 namespace PSP.Domain.Service
 {
@@ -37,7 +33,10 @@ namespace PSP.Domain.Service
         public void RemoveGroup(string id)
         {
             var grp = _entities.Context.groups.Find(id);
-            _entities.Context.groups.Remove(grp);
+            if (grp != null)
+            {
+                _entities.Context.groups.Remove(grp);
+            }
             SaveChanges();
         }
 
@@ -53,6 +52,7 @@ namespace PSP.Domain.Service
         }
 
         // НЕ РАБОТАЕТ - УТОЧНИТЬ У АНЮТКИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Проблема во внутреннем цикле по users
         public IList<groups> GetGroupsWithActiveUsers()
         {
             IList<groups> grpSelected = new List<groups>();
@@ -69,14 +69,8 @@ namespace PSP.Domain.Service
 
         public IList<string> GetAllGroupsNames()
         {
-            //var groupList = new List<string>();
-            //foreach (var group in _entities.Groups)
-            //{
-            //    groupList.Add(group.Name);
-            //}
-
-            var names = from g in GetAllGroups() select g.Name;
-
+//            var names = from g in GetAllGroups() select g.Name;
+            var names = GetAllGroups().Select(p => p.Name);
             return names.ToList();
         }
 

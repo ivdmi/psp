@@ -1,24 +1,33 @@
 ﻿@using System.Web.Mvc.Html
-@model PSP.WebUI.Models.EventsOfDay
+@model PSP.WebUI.Models.BoardEventsViewModel
 
 @{
     ViewBag.Title = "Редактирование событий";
 }
 
 <h2>Редактирование событий</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
 
-    <p>@Model.UserName</p>
-    <p>@Html.EditorFor(model => model.Date)</p>
-    <p>@Html.EditorFor(model => model.EventDesc)</p>
+    <p>@Html.LabelFor(model => model.EventsOfDay.UserName)
+    @Html.DisplayFor(model => model.EventsOfDay.UserName)</p>
+    
+    <p>@Html.HiddenFor(model => model.EventsOfDay.UserId)</p>
+
+
+    <p>@Html.LabelFor(model => model.EventsOfDay.Date)
+        @Html.DisplayFor(model => model.EventsOfDay.Date, new {@Value = Model.EventsOfDay.Date.ToString("dd.MM.yyyy"), @readonly = "readonly"})
+        @Html.HiddenFor(model => model.EventsOfDay.Date)</p>
+    
+    <p>@Html.LabelFor(model => model.EventsOfDay.Comments)
+    @Html.EditorFor(model => model.EventsOfDay.Comments)</p>
+    
+    <p>@Html.LabelFor(model => model.EventsOfDay.EventDesc)
+    @Html.EditorFor(model => model.EventsOfDay.EventDesc)</p>
 
     <table class="table table-striped table-bordered table-hover">
         <tbody>
-
             <tr>
                 <th>С</th>
                 <th>По</th>
@@ -27,20 +36,27 @@
                 <th>Комментарий</th>
             </tr>
 
-            @for (int i = 0; i < Model.Activities.Count; i++)
+            @for (int i = 0; i < Model.EventsOfDay.Activities.Count; i++)
             {
                 <tr>
-                    <td>@Html.EditorFor(m => m.Activities[i].TimeFrom)</td>
-                    <td>@Html.EditorFor(m => m.Activities[i].TimeTo)</td>
-                    <td>@Html.EditorFor(m => m.Activities[i].Factory)</td>
-                    <td>@Html.EditorFor(m => m.Activities[i].ActivityKey)</td>
-                    <td>@Html.EditorFor(m => m.Activities[i].Comment)</td>
+                    <td>@Html.EditorFor(m => m.EventsOfDay.Activities[i].TimeFrom)
+                    <td>@Html.EditorFor(m => m.EventsOfDay.Activities[i].TimeTo)</td>
+                    <td>@Html.EditorFor(m => m.EventsOfDay.Activities[i].Factory)</td>
+                    <td>
+                        @Html.DropDownListFor(m => m.EventsOfDay.Activities[i].ActivityKey, new SelectList(Model.States, "Key", "Name", Model.EventsOfDay.Activities[i].ActivityKey))
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => m.EventsOfDay.Activities[i].Comment)
+                        @Html.ValidationMessageFor(m => m.EventsOfDay.Activities[i].Comment)
+                    </td>
                 </tr>
             }
 
         </tbody>
     </table>
-    <input type="submit" value="Save" />
+    <input type="submit" value="Сохранить" />
+    @Html.ActionLink("Добавить событие", "AddActivity", new { userId = Model.EventsOfDay.UserId, date = Model.EventsOfDay.Date }, new { @class = "btn btn-info btn-sm" })
+    @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })
 }
 
 @section Scripts {

@@ -130,6 +130,7 @@ namespace PSP.WebUI.Helpers
             {
                 eventsOfDay.Activities = ParseEvents(dayEvents.FactoryList);
                 eventsOfDay.EventDesc = dayEvents.EventDesc;
+                eventsOfDay.Comments = dayEvents.Comments;
             }
             return eventsOfDay;
         }
@@ -178,7 +179,7 @@ namespace PSP.WebUI.Helpers
                     if (FactoryListBoxItem.UnpackFromString(item, out factory, out timeFrom, out timeTo, out activityKey,
                         out comment))
                     {
-                        eventsList.Add(new ElementaryActivity() { Factory = factory, TimeFrom = timeFrom, TimeTo = timeTo, ActivityKey = activityKey });
+                        eventsList.Add(new ElementaryActivity() { Factory = factory, TimeFrom = timeFrom, TimeTo = timeTo, ActivityKey = activityKey, Comment = comment });
                     }
                 }
             }
@@ -230,64 +231,76 @@ namespace PSP.WebUI.Helpers
                 {
                     item.Comment = String.Empty;
                 }
+                if (String.IsNullOrEmpty(item.Factory))
+                {
+                    item.Factory = String.Empty;
+                }
                 Builder.AppendFormat("{0},{1},{2},{3},{4};", item.Factory, item.TimeFrom.ToShortTimeString(), item.TimeTo.ToShortTimeString(), item.ActivityKey.ToString(), item.Comment.Replace(';', ','));
             }
             return Builder.ToString();
         }
 
-        //public CellElement EventCellFormatting(CellElement cellElement)
-        //{
-        //    var cell = cellElement;
-        //    int column = cell.ColumnIndex;
-
-        //    if (!cell.DayEvent.FactoryList.IsEmpty())       // Есть событие
-        //    {
-        //        var Event = cell.DayEvent;
-        //        // Фон
-        //        //                Color Color = EventHelper.States[Event.State].NetColor;
-        //        //              cell.BackColor = ControlPaint.Light(Color);
-        //        //              E.CellElement.BackColor2 = ControlPaint.LightLight(Color);
-        //        cell.DrawFill = true;
-        //        cell.BackColor = EventHelper.States[Event.State].NetColor;
-        //        cell.Text = "";
-
-        //        var Builder = new StringBuilder("Предприятия\n");
-        //        string[] Splitted = Event.FactoryList.Split(';');
-        //        foreach (string S in Splitted)
-        //        {
-        //            string Fact;
-        //            DateTime Beg;
-        //            DateTime End;
-        //            int Key;
-        //            string Comm;
-        //            if (FactoryListBoxItem.UnpackFromString(S, out Fact, out Beg, out End, out Key, out Comm))
-        //                Builder.AppendFormat("{0} - {1}\n", Fact, EventHelper.States[Key].Name);
-        //        }
-        //        cell.ToolTipText = Builder.ToString();
-        //    }
-
-        //        // &#013
-        //    else if (DateTimeUtils.CheckWeekendByColumn(column, StartDate))
-        //    {
-        //        cell.BackColor = Color.LightPink;
-        //        cell.BackColor2 = Color.HotPink;
-        //        cell.DrawFill = true;
-        //        cell.ToolTipText = "";
-        //    }
-        //    else
-        //    {
-        //        //                E.CellElement.NumberOfColors = 2;
-        //        cell.DrawFill = false;
-        //        //                E.CellElement.ResetValue(VisualElement.BackColorProperty);
-        //        //                E.CellElement.ResetValue(VisualElement.ForeColorProperty);
-        //        cell.ToolTipText = "";
-        //    }
-        //    return cell;
-        //}
-
         public void UpdateEvent(events _event)
         {
             dataService.UpdateEvent(_event);
         }
+
+        public void AddEvent(events _event)
+        {
+            dataService.AddEvent(_event);
+        }
+
+        public events CreateFilledEvent(EventsOfDay eventsOfDay)
+        {
+            var Event = new events {ID = new Guid().ToString()};
+            Event = FillEvent(eventsOfDay, Event);
+            dataService.AddEvent(Event);
+            return Event;
+        }
+
+        public events AddElementaryActivity(events _event)
+        {
+            var Event = _event;
+//            if (Event != null)
+            {
+                //Event.UserID = eventsOfDay.UserId;
+                //Event.Comments = eventsOfDay.Comments;
+                //Event.EventDesc = eventsOfDay.EventDesc;
+                //Event.Date = eventsOfDay.Date;
+                //Event.FactoryList = PackFactoryList(eventsOfDay);
+
+                //if (eventsOfDay.Activities.Count > 0)
+                //{
+                //    Event.State = eventsOfDay.Activities[0].ActivityKey;
+                //}
+            }
+            dataService.AddEvent(Event);
+            return Event;
+        }
+
+        public events FillEvent(EventsOfDay eventsOfDay, events _event)
+        {
+            events Event;
+            if (_event == null)
+                Event = new events();
+            else
+            {
+                Event = _event;
+            }
+            {
+                Event.UserID = eventsOfDay.UserId;
+                Event.Comments = eventsOfDay.Comments;
+                Event.EventDesc = eventsOfDay.EventDesc;
+                Event.Date = eventsOfDay.Date;
+                Event.FactoryList = PackFactoryList(eventsOfDay);
+
+                if (eventsOfDay.Activities.Count > 0)
+                {
+                    Event.State = eventsOfDay.Activities[0].ActivityKey;
+                }
+            }
+            return Event;
+        }
+
     }
 }

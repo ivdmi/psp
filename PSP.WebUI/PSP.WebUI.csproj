@@ -150,6 +150,7 @@
     <Compile Include="Helpers\AuditorStatistics.cs" />
     <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
     <Compile Include="Infrastructure\Concrete\FormsAuthProvider.cs" />
+    <Compile Include="Models\BoardEventsViewModel.cs" />
     <Compile Include="Models\CloseMonthModel.cs" />
     <Compile Include="Models\ElementaryActivity.cs" />
     <Compile Include="Models\EventGroupModel.cs" />
@@ -307,8 +308,8 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Home\CloseMonth.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
-    <Content Include="Views\Event\DayEvents.cshtml" />
     <Content Include="Views\Event\BoardEvents.cshtml" />
+    <Content Include="Views\Event\AddActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
