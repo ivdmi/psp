@@ -64,9 +64,9 @@ namespace PSP.Domain.Service
             }
         }
 
-        public string[] GetFactoryList()
+        public List<string> GetFactoryList()
         {
-            var factories = _entities.Clients.Select(c => c.Company).OrderBy(c => c).ToArray();
+            var factories = _entities.Clients.Select(c => c.Company.Trim()).OrderBy(c => c).ToList();
             return factories;
         }
 

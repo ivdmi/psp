@@ -36,58 +36,11 @@ namespace PSP.WebUI.Controllers
             List<EventGroupModel> eventList = eventService.GetGroupsEventList(startDate);
             return View(eventList);
         }
-
-
-        //public ActionResult DayEvents(string userId, DateTime date)
-        //{
-        //    ViewBag.Month = DateTimeUtils.GetMonthName(date.Month);
-        //    ViewBag.Year = date.Year;
-        //    SelectList eventsSelectedList = new SelectList(EventHelper.States, "Key", "Name");
-        //    ViewBag.Events = eventsSelectedList;
-        //    eventsOfDay = eventService.GetUserEventsOfDay(date, userId);
-        //    return View(eventsOfDay);
-        //}
-
-        //[HttpPost]
-        //public ActionResult DayEvents(EventsOfDay eventsOfDay)
-        //{
-        //    var events = eventService.GetEventsByDayAndUserId(eventsOfDay.Date, eventsOfDay.UserId);
-        //    var factoryList = eventService.PackFactoryList(eventsOfDay);
-        //    events.FactoryList = factoryList;
-        //    eventService.UpdateEvent(events);
-
-        //    ViewBag.Month = DateTimeUtils.GetMonthName(startDate.Month);
-        //    ViewBag.Year = startDate.Year;
-        //    SelectList eventsSelectedList = new SelectList(EventHelper.States, "Key", "Name");
-        //    ViewBag.Events = eventsSelectedList;
-        //    //            EventsOfDayViewModel eventsBoard = new EventsOfDayViewModel();
-        //    eventsOfDay = eventService.GetUserEventsOfDay(eventsOfDay.Date, eventsOfDay.UserId);
-
-        //    return View(eventsOfDay);
-        //}
-
-        //public ActionResult SaveEvent(EventsOfDay eventsOfDay)
-        //{
-        //    var dayEvents = eventService.GetEventsByDayAndUserId(eventsOfDay.Date, eventsOfDay.UserId);
-        //    var factoryList = eventService.PackFactoryList(eventsOfDay);
-        //    dayEvents.FactoryList = factoryList;
-        //    eventService.UpdateEvent(dayEvents);
-
-        //    ViewBag.Month = DateTimeUtils.GetMonthName(startDate.Month);
-        //    ViewBag.Year = startDate.Year;
-        //    SelectList eventsSelectedList = new SelectList(EventHelper.States, "Key", "Name");
-        //    ViewBag.Events = eventsSelectedList;
-
-        //    //            EventsOfDayViewModel eventsBoard = new EventsOfDayViewModel();
-        //    eventsOfDay = eventService.GetUserEventsOfDay(eventsOfDay.Date, eventsOfDay.UserId);
-        //    return View("DayEvents", eventsOfDay);
-        //}
-
+        
         public ActionResult BoardEvents(DateTime dateParam, string userId)
         {
             ViewBag.Month = DateTimeUtils.GetMonthName(startDate.Month);
             ViewBag.Year = startDate.Year;
-//            ViewBag.States = EventHelper.States;
             BoardEventsViewModel boardEvents = new BoardEventsViewModel()
             {
                 EventsOfDay = eventService.GetUserEventsOfDay(dateParam, userId),
@@ -98,11 +51,16 @@ namespace PSP.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult BoardEvents(BoardEventsViewModel boardEventsParam)
+        public ActionResult BoardEvents(BoardEventsViewModel boardEventsParam, int action = 0)
         {
             var boardEvents = boardEventsParam;
             if (ModelState.IsValid)
             {
+                
+                if (action > 0)
+                {
+                    boardEvents.EventsOfDay.Activities.RemoveAt(action - 1);
+                }
                 events Event = eventService.GetEventsByDayAndUserId(boardEvents.EventsOfDay.Date, boardEvents.EventsOfDay.UserId);
                 if (Event == null)
                 {
@@ -116,11 +74,14 @@ namespace PSP.WebUI.Controllers
                 }
                 eventService.UpdateEvent(Event);
             }
-            ViewBag.Month = DateTimeUtils.GetMonthName(startDate.Month);
-            ViewBag.Year = startDate.Year;
-
-//            return View(boardEvents);
-            return RedirectToAction("Index");
+            //ViewBag.Month = DateTimeUtils.GetMonthName(startDate.Month);
+            //ViewBag.Year = startDate.Year;
+            boardEvents.Factories = dataService.GetFactoryList();
+            if (action > 0)
+                return RedirectToAction("BoardEvents", new { userId = boardEvents.EventsOfDay.UserId, dateParam = boardEvents.EventsOfDay.Date });
+//                return RedirectToAction("BoardEvents", new { boardEvents.EventsOfDay.Date, boardEvents.EventsOfDay.UserId });
+            else
+                return RedirectToAction("Index");
         }
 
         public ActionResult AddActivity(DateTime date, string userId)
@@ -154,5 +115,30 @@ namespace PSP.WebUI.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult Delete(ElementaryActivity activity, DateTime date, string userId)
+        {
+            if (ModelState.IsValid)
+            {
+                events Event = eventService.GetEventsByDayAndUserId(date, userId);
+                var eventsOfDay = eventService.GetUserEventsOfDay(date, userId);
+                eventsOfDay.Activities.Remove(activity);
+                Event = eventService.FillEvent(eventsOfDay, Event);
+                if (Event.ID != null)
+                {
+                    eventService.UpdateEvent(Event);
+                }
+                else
+                {
+                    Event.ID = Guid.NewGuid().ToString();
+                    eventService.AddEvent(Event);
+                }
+
+                return RedirectToAction("BoardEvents", new { userId = userId, dateParam = date });
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

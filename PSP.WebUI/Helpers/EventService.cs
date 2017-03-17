@@ -176,8 +176,8 @@ namespace PSP.WebUI.Helpers
                     DateTime timeTo;
                     int activityKey;
                     string comment;
-                    if (FactoryListBoxItem.UnpackFromString(item, out factory, out timeFrom, out timeTo, out activityKey,
-                        out comment))
+//                    if (FactoryListBoxItem.UnpackFromString(item, out factory, out timeFrom, out timeTo, out activityKey, out comment))
+                    if (EventHelper.UnpackEventFromString(item, out factory, out timeFrom, out timeTo, out activityKey, out comment))
                     {
                         eventsList.Add(new ElementaryActivity() { Factory = factory, TimeFrom = timeFrom, TimeTo = timeTo, ActivityKey = activityKey, Comment = comment });
                     }

@@ -43,7 +43,6 @@ namespace PSP.Domain.Service
                 Key = Convert.ToInt32(Array[3]);
                 if (Array.Length > 4)
                     Comment = Convert.ToString(Array[4]);
-
                 return true;
             }
             return false;

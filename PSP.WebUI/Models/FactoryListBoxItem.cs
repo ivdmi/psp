@@ -54,38 +54,36 @@ namespace PSP.WebUI.Models
             return "";
         }
 
-        public static bool UnpackFromString(string InStr, out string Factory, out DateTime Begin, out DateTime End, out int Key, out string Comment)
-        {
-            Factory = "";
-            Begin = End = DateTime.Now;
-            Key = 0;
-            Comment = "";
-            string[] Array = InStr.Split(new[] { ',' }, 5);
-            if (Array.Length >= 4)
-            {
-                Factory = Array[0];
-                DateTime begin = new DateTime();
-                DateTime end = new DateTime();
-                short key;
-                if (DateTime.TryParse(Array[1], out begin) && DateTime.TryParse(Array[2], out end) && Int16.TryParse(Array[3], out key))                
-                {
-                    Begin = begin;
-                    End = end;
-                    Key = key;
-//                  Begin = Convert.ToDateTime(Array[1]);
-//                  End = Convert.ToDateTime(Array[2]);
-            }
-                else
-                {
-                    return false;
-                }
+        //public static bool UnpackFromString(string InStr, out string Factory, out DateTime Begin, out DateTime End, out int Key, out string Comment)
+        //{
+        //    Factory = "";
+        //    Begin = End = DateTime.Now;
+        //    Key = 0;
+        //    Comment = "";
+        //    string[] Array = InStr.Split(new[] { ',' }, 5);
+        //    if (Array.Length >= 4)
+        //    {
+        //        Factory = Array[0];
+        //        DateTime begin = new DateTime();
+        //        DateTime end = new DateTime();
+        //        short key;
+        //        if (DateTime.TryParse(Array[1], out begin) && DateTime.TryParse(Array[2], out end) && Int16.TryParse(Array[3], out key))                
+        //        {
+        //            Begin = begin;
+        //            End = end;
+        //            Key = key;
+        //    }
+        //        else
+        //        {
+        //            return false;
+        //        }
             
-            if (Array.Length > 4)
-                    Comment = Convert.ToString(Array[4]);
+        //    if (Array.Length > 4)
+        //            Comment = Convert.ToString(Array[4]);
 
-                return true;
-            }
-            return false;
-        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }
