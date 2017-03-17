@@ -4,6 +4,9 @@
     ViewBag.Title = "AddActivity";
 }
 
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
+
 <h2>Добавить событие</h2>
 
 @using (Html.BeginForm("AddActivity", "Event", new { date = @ViewBag.Date, userId = @ViewBag.UserId }, FormMethod.Post))
@@ -17,7 +20,7 @@
             @Html.LabelFor(model => model.Factory)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Factory)
+            @Html.DropDownListFor(model => model.Factory, new SelectList(ViewBag.Factories))
             @Html.ValidationMessageFor(model => model.Factory)
         </div>
 
@@ -25,14 +28,17 @@
             @Html.LabelFor(model => model.TimeFrom)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.TimeFrom)
-            @Html.ValidationMessageFor(model => model.TimeFrom)
+            @*@Html.EditorFor(model => model.TimeFrom)*@
+            @*@Html.ValidationMessageFor(model => model.TimeFrom)*@
+
+            @Html.EditorFor(model => model.TimeFrom, new { htmlAttributes = new { @class = "form-control date-picker" } })
         </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.TimeTo)
         </div>
         <div class="editor-field">
+          
             @Html.EditorFor(model => model.TimeTo)
             @Html.ValidationMessageFor(model => model.TimeTo)
         </div>
@@ -41,7 +47,7 @@
             @Html.LabelFor(model => model.ActivityKey)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(m => m.ActivityKey, new SelectList(@ViewBag.States, "Key", "Name"))
+            @Html.DropDownListFor(model => model.ActivityKey, new SelectList(@ViewBag.States, "Key", "Name"))
             @Html.ValidationMessageFor(model => model.ActivityKey)
         </div>
 
@@ -63,3 +69,14 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script type="text/javascript">
+    $(function () {
+        $(".date-picker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-100:+0",
+            dateFormat: 'dd/mm/yy'
+        });
+    });
+</script>

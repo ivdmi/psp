@@ -74,12 +74,9 @@ namespace PSP.WebUI.Controllers
                 }
                 eventService.UpdateEvent(Event);
             }
-            //ViewBag.Month = DateTimeUtils.GetMonthName(startDate.Month);
-            //ViewBag.Year = startDate.Year;
             boardEvents.Factories = dataService.GetFactoryList();
             if (action > 0)
                 return RedirectToAction("BoardEvents", new { userId = boardEvents.EventsOfDay.UserId, dateParam = boardEvents.EventsOfDay.Date });
-//                return RedirectToAction("BoardEvents", new { boardEvents.EventsOfDay.Date, boardEvents.EventsOfDay.UserId });
             else
                 return RedirectToAction("Index");
         }
@@ -89,6 +86,7 @@ namespace PSP.WebUI.Controllers
             ViewBag.Date = date;
             ViewBag.UserId = userId;
             ViewBag.States = EventHelper.States;
+            ViewBag.Factories = dataService.GetFactoryList();
             return View();
         }
 
@@ -113,32 +111,37 @@ namespace PSP.WebUI.Controllers
 
                 return RedirectToAction("BoardEvents", new { userId = userId, dateParam = date });
             }
-            return RedirectToAction("Index");
+     //       return RedirectToAction("Index");
+            ViewBag.Date = date;
+            ViewBag.UserId = userId;
+            ViewBag.States = EventHelper.States;
+            ViewBag.Factories = dataService.GetFactoryList();
+            return View(activity);
         }
 
-        [HttpPost]
-        public ActionResult Delete(ElementaryActivity activity, DateTime date, string userId)
-        {
-            if (ModelState.IsValid)
-            {
-                events Event = eventService.GetEventsByDayAndUserId(date, userId);
-                var eventsOfDay = eventService.GetUserEventsOfDay(date, userId);
-                eventsOfDay.Activities.Remove(activity);
-                Event = eventService.FillEvent(eventsOfDay, Event);
-                if (Event.ID != null)
-                {
-                    eventService.UpdateEvent(Event);
-                }
-                else
-                {
-                    Event.ID = Guid.NewGuid().ToString();
-                    eventService.AddEvent(Event);
-                }
+        //[HttpPost]
+        //public ActionResult Delete(ElementaryActivity activity, DateTime date, string userId)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        events Event = eventService.GetEventsByDayAndUserId(date, userId);
+        //        var eventsOfDay = eventService.GetUserEventsOfDay(date, userId);
+        //        eventsOfDay.Activities.Remove(activity);
+        //        Event = eventService.FillEvent(eventsOfDay, Event);
+        //        if (Event.ID != null)
+        //        {
+        //            eventService.UpdateEvent(Event);
+        //        }
+        //        else
+        //        {
+        //            Event.ID = Guid.NewGuid().ToString();
+        //            eventService.AddEvent(Event);
+        //        }
 
-                return RedirectToAction("BoardEvents", new { userId = userId, dateParam = date });
-            }
-            return RedirectToAction("Index");
-        }
+        //        return RedirectToAction("BoardEvents", new { userId = userId, dateParam = date });
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
     }
 }
