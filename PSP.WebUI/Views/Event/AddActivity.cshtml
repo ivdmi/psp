@@ -6,6 +6,16 @@
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+@*<script src="~/Scripts/jquery.timepicker.min.js"></script>*@
+<link href="~/Content/jquery-ui.css" type="text/css" rel="stylesheet"/>
+@*<link href="~/Content/jquery.timepicker.css" type="text/css" rel="stylesheet" />*@
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet"/>
+<link href="~/Content/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
+<script src="~/Scripts/jquery-ui-timepicker-ru.js"></script>
+<script src="~/Scripts/jquery-ui-sliderAccess.js"></script>
 
 <h2>Добавить событие</h2>
 
@@ -27,56 +37,74 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.TimeFrom)
         </div>
+
         <div class="editor-field">
-            @*@Html.EditorFor(model => model.TimeFrom)*@
-            @*@Html.ValidationMessageFor(model => model.TimeFrom)*@
-
-            @Html.EditorFor(model => model.TimeFrom, new { htmlAttributes = new { @class = "form-control date-picker" } })
+            @Html.TextBoxFor(model => model.TimeFrom, new { @ID = "timepicker" })
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TimeTo)
-        </div>
-        <div class="editor-field">
-          
-            @Html.EditorFor(model => model.TimeTo)
-            @Html.ValidationMessageFor(model => model.TimeTo)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.TimeTo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.TimeTo, new { @ID = "TimeTo" })
+                @Html.ValidationMessageFor(model => model.TimeTo)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ActivityKey)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.ActivityKey, new SelectList(@ViewBag.States, "Key", "Name"))
-            @Html.ValidationMessageFor(model => model.ActivityKey)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ActivityKey)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.ActivityKey, new SelectList(@ViewBag.States, "Key", "Name"))
+                @Html.ValidationMessageFor(model => model.ActivityKey)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Comment)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Comment)
-            @Html.ValidationMessageFor(model => model.Comment)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Comment)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Comment)
+                @Html.ValidationMessageFor(model => model.Comment)
+            </div>
 
-        <p>
-            <input type="submit" value="Добавить" class="btn btn-info btn-sm"/>
-            @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })
-        </p>
-    </fieldset>
+            <p>
+                <input type="submit" value="Добавить" class="btn btn-info btn-sm" />
+                @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })
+            </p>
+</fieldset>
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 
+<script language="javascript" type="text/javascript">
+    $(document).ready(function() {
+        $('#datepicker').datepicker({
+            showOptions: { speed: 'fast' },
+            changeMonth: false,
+            changeYear: false,
+            dateFormat: 'dd/mm/yy',
+            gotoCurrent: true,
+            // Arguments for the time picker
+            showSecond: false,
+            timeFormat: 'hh:mm',
+            stepHour: 1,
+            stepMinute: 10
+        });
+        $('#timepicker').timepicker();
+    });
+</script>
+
 <script type="text/javascript">
-    $(function () {
-        $(".date-picker").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "-100:+0",
-            dateFormat: 'dd/mm/yy'
+    $(document).ready(function () {
+        $('#TimeTo').timepicker(
+        {
+            controlType: 'select',
+            oneLine: true,
+            stepMinute: 5,
+            hourMin: 6,
+            hourMax: 23,
+            timeFormat: 'HH:mm'
         });
     });
 </script>

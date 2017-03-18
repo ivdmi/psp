@@ -28,21 +28,30 @@ namespace PSP.Domain.Service
             new StateElement { Name = "Бухгалтерский Учет",     Key = 6,    NetColor = Color.Brown      },                                              
         };
 
-        public static bool UnpackEventFromString(string InStr, out string Factory, out DateTime Begin, out DateTime End, out int Key, out string Comment)
+        public static bool UnpackEventFromString(string inStr, out string factory, out DateTime begin, out DateTime end, out int key, out string comment)
         {
-            Factory = "";
-            Begin = End = DateTime.Now;
-            Key = 0;
-            Comment = "";
-            string[] Array = InStr.Split(new[] { ',' }, 5);
-            if (Array.Length >= 4)
+            factory = "";
+            begin = end = DateTime.Now;
+            key = 0;
+            comment = "";
+            string[] array = inStr.Split(new[] { ',' }, 5);
+            if (array.Length >= 4)
             {
-                Factory = Array[0];
-                Begin = Convert.ToDateTime(Array[1]);
-                End = Convert.ToDateTime(Array[2]);
-                Key = Convert.ToInt32(Array[3]);
-                if (Array.Length > 4)
-                    Comment = Convert.ToString(Array[4]);
+                factory = array[0];
+                DateTime tryBegin, tryEnd = new DateTime();
+                int tryKey;
+                var isBegin = DateTime.TryParse(array[1], out tryBegin);
+                var isEnd = DateTime.TryParse(array[2], out tryEnd);
+                var isKey = int.TryParse(array[3], out tryKey);
+                //           begin = Convert.ToDateTime(Array[1]);
+                //           end = Convert.ToDateTime(Array[2]);
+                // Key = Convert.ToInt32(Array[3]);
+                if (array.Length > 4)
+                    comment = Convert.ToString(array[4]);
+                if (!isBegin || !isEnd || !isKey) return false;
+                begin = tryBegin;
+                end = tryEnd;
+                key = tryKey;
                 return true;
             }
             return false;
