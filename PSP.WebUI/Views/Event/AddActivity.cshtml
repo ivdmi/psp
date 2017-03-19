@@ -1,24 +1,20 @@
 ﻿@model PSP.WebUI.Models.ElementaryActivity
-
 @{
     ViewBag.Title = "AddActivity";
 }
-
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
 <script src="~/Scripts/bootstrap.js"></script>
 @*<script src="~/Scripts/jquery.timepicker.min.js"></script>*@
-<link href="~/Content/jquery-ui.css" type="text/css" rel="stylesheet"/>
+<link href="~/Content/jquery-ui.css" type="text/css" rel="stylesheet" />
 @*<link href="~/Content/jquery.timepicker.css" type="text/css" rel="stylesheet" />*@
-<link href="~/Content/Site.css" type="text/css" rel="stylesheet"/>
+<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
 <link href="~/Content/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
-
 <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
 <script src="~/Scripts/jquery-ui-timepicker-ru.js"></script>
 <script src="~/Scripts/jquery-ui-sliderAccess.js"></script>
 
 <h2>Добавить событие</h2>
-
 @using (Html.BeginForm("AddActivity", "Event", new { date = @ViewBag.Date, userId = @ViewBag.UserId }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -33,52 +29,44 @@
             @Html.DropDownListFor(model => model.Factory, new SelectList(ViewBag.Factories))
             @Html.ValidationMessageFor(model => model.Factory)
         </div>
-
         <div class="editor-label">
             @Html.LabelFor(model => model.TimeFrom)
         </div>
-
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.TimeFrom, new { @ID = "timepicker" })
+            @Html.TextBoxFor(model => model.TimeFrom, new { @ID = "TimeFrom", @name = "TimeFrom" })
         </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.TimeTo)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.TimeTo, new { @ID = "TimeTo" })
-                @Html.ValidationMessageFor(model => model.TimeTo)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.ActivityKey)
-            </div>
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.ActivityKey, new SelectList(@ViewBag.States, "Key", "Name"))
-                @Html.ValidationMessageFor(model => model.ActivityKey)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Comment)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Comment)
-                @Html.ValidationMessageFor(model => model.Comment)
-            </div>
-
-            <p>
-                <input type="submit" value="Добавить" class="btn btn-info btn-sm" />
-                @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })
-            </p>
-</fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TimeTo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TimeTo, new { @ID = "TimeTo", @name = "TimeTo" })
+            @Html.ValidationMessageFor(model => model.TimeTo)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ActivityKey)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ActivityKey, new SelectList(@ViewBag.States, "Key", "Name"))
+            @Html.ValidationMessageFor(model => model.ActivityKey)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Comment)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Comment)
+            @Html.ValidationMessageFor(model => model.Comment)
+        </div>
+        <p>
+            <input type="submit" value="Добавить" class="btn btn-info btn-sm" />
+            @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })
+        </p>
+    </fieldset>
 }
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
-<script language="javascript" type="text/javascript">
-    $(document).ready(function() {
+@*<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
         $('#datepicker').datepicker({
             showOptions: { speed: 'fast' },
             changeMonth: false,
@@ -93,18 +81,40 @@
         });
         $('#timepicker').timepicker();
     });
-</script>
-
+</script>*@
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#TimeTo').timepicker(
+    //$(document).ready(function() {
+    //    $('#TimeTo').timepicker(
+    //    {
+    //        controlType: 'select',
+    //        oneLine: true,
+    //        stepMinute: 5,
+    //        hourMin: 6,
+    //        hourMax: 23,
+    //        timeFormat: 'HH:mm'
+    //    });
+    //});
+
+    var startTimeTextBox = $('#TimeFrom');
+    var endTimeTextBox = $('#TimeTo');
+
+    $.timepicker.timeRange(
+        startTimeTextBox,
+        endTimeTextBox,
         {
             controlType: 'select',
             oneLine: true,
-            stepMinute: 5,
+            minInterval: (1000 * 60 * 5), // 1hr
+            currentText: 'Сейчас',
+            closeText: 'Применить',
             hourMin: 6,
             hourMax: 23,
-            timeFormat: 'HH:mm'
-        });
-    });
+            stepMinute: 5,
+            timeFormat: 'HH:mm',
+            start: {}, // start picker options
+            end: {} // end picker options
+        }
+    );
+
 </script>
+
