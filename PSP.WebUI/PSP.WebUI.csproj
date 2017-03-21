@@ -326,6 +326,7 @@
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Event\BoardEvents.cshtml" />
     <Content Include="Views\Event\AddActivity.cshtml" />
+    <Content Include="Views\Event\EditActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

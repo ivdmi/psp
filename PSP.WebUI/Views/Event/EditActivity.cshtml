@@ -11,7 +11,7 @@
 <script src="~/Scripts/jquery-ui-sliderAccess.js"></script>
 
 <h2>Добавить событие</h2>
-@using (Html.BeginForm("AddActivity", "Event", new { date = @ViewBag.Date, userId = @ViewBag.UserId }, FormMethod.Post))
+@using (Html.BeginForm("EditActivity", "Event", new { date = @ViewBag.Date, userId = @ViewBag.UserId, rowNum = @ViewBag.Row}, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -54,54 +54,24 @@
             @Html.ValidationMessageFor(model => model.Comment)
         </div>
         <p>
-            <input type="submit" value="Добавить" class="btn btn-info btn-sm" />
+            <input type="submit" value="Сохранить" class="btn btn-info btn-sm" />
             @Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })
         </p>
     </fieldset>
 }
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-@*<script language="javascript" type="text/javascript">
-    $(document).ready(function () {
-        $('#datepicker').datepicker({
-            showOptions: { speed: 'fast' },
-            changeMonth: false,
-            changeYear: false,
-            dateFormat: 'dd/mm/yy',
-            gotoCurrent: true,
-            // Arguments for the time picker
-            showSecond: false,
-            timeFormat: 'hh:mm',
-            stepHour: 1,
-            stepMinute: 10
-        });
-        $('#timepicker').timepicker();
-    });
-</script>*@
+
 <script type="text/javascript">
-    //$(document).ready(function() {
-    //    $('#TimeTo').timepicker(
-    //    {
-    //        controlType: 'select',
-    //        oneLine: true,
-    //        stepMinute: 5,
-    //        hourMin: 6,
-    //        hourMax: 23,
-    //        timeFormat: 'HH:mm'
-    //    });
-    //});
-
-    var startTimeTextBox = $('#TimeFrom');
-    var endTimeTextBox = $('#TimeTo');
-
     $.timepicker.timeRange(
         startTimeTextBox,
         endTimeTextBox,
         {
             controlType: 'select',
-            //oneLine: true,
-            minInterval: (1000 * 60 * 5), // 5 min
+            oneLine: true,
+            minInterval: (1000 * 60 * 5), // 1hr
             currentText: 'Сейчас',
             closeText: 'Применить',
             hourMin: 6,

@@ -5,11 +5,11 @@ namespace PSP.WebUI.Models
 {
     public class ElementaryActivity
     {
+        [Required]
         public string Factory { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:HH:mm}")]
+        [Required]
         public DateTime TimeFrom { get; set; }
-        
+        [Required]
         public DateTime TimeTo { get; set; }
         [Required]
         [Range(0, 6, ErrorMessage = "Интервал от 0 до 6")]
@@ -18,25 +18,7 @@ namespace PSP.WebUI.Models
         [Display(Name = "Комментарии")]
         public string Comment { get; set; }
 
-        //[Required]
-        //[Range(0, 23)]
-        //[Display(Name = "Часы")]
-        //int HourFrom { get; set; }
-
-        //[Required]
-        //[Range(0, 59)]
-        //[Display(Name = "Минуты")]
-        //int MinuteFrom { get; set; }
-
-        //[Required]
-        //[Range(0, 23)]
-        //[Display(Name = "Часы")]
-        //int HourTo { get; set; }
-
-        //[Required]
-        //[Range(0, 59)]
-        //[Display(Name = "Минуты")]
-        //private int MinuteTo { get; set; }
-
+        [Display(Name = "Комментарии")]
+        public bool Check { get; set; }
     }
 }

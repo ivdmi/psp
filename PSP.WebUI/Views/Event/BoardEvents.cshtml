@@ -1,4 +1,5 @@
-﻿@using System.Web.Mvc.Html
+﻿@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
 @model PSP.WebUI.Models.BoardEventsViewModel
 
 <h2>Редактирование событий</h2>
@@ -7,7 +8,7 @@
     @Html.AntiForgeryToken()
 
     <p>
-        @Html.LabelFor(model => model.EventsOfDay.UserName, new {@class="col-lg-1"})
+        @Html.LabelFor(model => model.EventsOfDay.UserName, new { @class = "col-lg-1" })
         @Html.DisplayFor(model => model.EventsOfDay.UserName)
     </p>
 
@@ -15,7 +16,7 @@
 
     <p>
         @Html.LabelFor(model => model.EventsOfDay.Date, new { @class = "col-lg-1" })
-        @Html.DisplayFor(model => model.EventsOfDay.Date, new { @Value = Model.EventsOfDay.Date.ToString("dd.MM.yyyy"), @readonly = "readonly" })
+        @Html.DisplayFor(model => model.EventsOfDay.Date, new { @Value = Model.EventsOfDay.Date.ToString("dd.MM.yyyy") })
         @Html.HiddenFor(model => model.EventsOfDay.Date)
     </p>
 
@@ -42,9 +43,9 @@
 
             @for (int i = 0; i < Model.EventsOfDay.Activities.Count; i++)
             {
-                <tr >
-                    <td>@Html.EditorFor(m => m.EventsOfDay.Activities[i].TimeFrom)
-                    <td>@Html.EditorFor(m => m.EventsOfDay.Activities[i].TimeTo)</td>
+                <tr>
+                    <td>@Html.TextBoxFor(m => m.EventsOfDay.Activities[i].TimeFrom, new { @Value = Model.EventsOfDay.Activities[i].TimeFrom.ToString("HH:mm") })
+                    <td>@Html.TextBoxFor(m => m.EventsOfDay.Activities[i].TimeTo, new { @Value = Model.EventsOfDay.Activities[i].TimeTo.ToString("HH:mm") })</td>
                     <td class="col-lg-4">
                         @Html.DropDownListFor(m => m.EventsOfDay.Activities[i].Factory, new SelectList((Model.Factories), Model.EventsOfDay.Activities[i].Factory), new { @class = "col-lg-12" })
                     </td>
@@ -53,10 +54,12 @@
                     </td>
                     <td>
                         @Html.EditorFor(m => m.EventsOfDay.Activities[i].Comment)
-                        @Html.ValidationMessageFor(m => m.EventsOfDay.Activities[i+1].Comment)
+                        @Html.ValidationMessageFor(m => m.EventsOfDay.Activities[i + 1].Comment)
                     </td>
                     <td>
-                        <button type="submit" name="action" value=@(i+1) class="btn btn-xs btn-danger">X</button>
+                        @Html.EditorFor(m => m.EventsOfDay.Activities[i].Check)
+                        @*@Html.ActionLink("Edit", "EditActivity", new {date = Model.EventsOfDay.Date, userId = Model.EventsOfDay.UserId, rowNum = i}, new {@class = "btn btn-info btn-sm"})
+                        @Ajax.ActionLink("Delete", "Delete", new {userId = Model.EventsOfDay.UserId.ToString(), dateParam = Model.EventsOfDay.Date, deleteRow = i}, new AjaxOptions {HttpMethod = "POST"})*@
                     </td>
                 </tr>
             }
@@ -64,8 +67,8 @@
         </tbody>
     </table>
     @Html.ActionLink("Добавить событие", "AddActivity", new { userId = Model.EventsOfDay.UserId, date = Model.EventsOfDay.Date }, new { @class = "btn btn-info btn-sm" })
-    <button type="submit" name="action" value=0 class="btn btn-info btn-sm">Сохранить</button>
-    @Html.ActionLink("Выход", "Index", null, new { @class = "btn btn-info btn-sm" })
+    <button type="submit" class="btn btn-info btn-sm">Сохранить</button>
+    @*@Html.ActionLink("Отмена", "Index", null, new { @class = "btn btn-info btn-sm" })*@
 }
 
 @section Scripts {
