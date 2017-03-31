@@ -14,8 +14,8 @@ namespace PSP.WebUI.Helpers
 {
     public class EventService
     {
-        private DateTime StartDate = DateTime.Now;
-        private DateTime EndDate = DateTime.Now;
+        private DateTime _startDate = DateTime.Now;
+        private DateTime _endDate = DateTime.Now;
 
         private DataService dataService;
         private GroupService groupService;
@@ -24,87 +24,50 @@ namespace PSP.WebUI.Helpers
             dataService = new DataService(repository);
             groupService = new GroupService(repository);
         }
+        
+        //public class RowMonth
+        //{
+        //    public List<string> Columns { get; set; }
 
 
-        public class RowMonth
-        {
-            public List<string> Columns { get; set; }
-            public RowMonth()
-            {
-                Columns = new List<string>();
-            }
-        }
+        //    public RowMonth()
+        //    {
+        //        Columns = new List<string>();
+        //    }
+        //}
 
-        private List<RowMonth> _auditorEvetsList = new List<RowMonth>();
-
-        private RowMonth GetHeader()
-        {
-            RowMonth row = new RowMonth();
-            int Year = StartDate.Year;
-            int Month = StartDate.Month;
-            int Day = StartDate.Day;
-
-            row.Columns.Add(String.Empty);
-            row.Columns.Add("Ф.И.О.");
-            for (int i = 0; i < (EndDate - StartDate).Days + 2; i++)
-            {
-                row.Columns.Add(Day.ToString());
-                if (Day >= DateTimeUtils.DaysInMonth(Year, Month))
-                {
-                    Day = 1;
-                    DateTime Next = DateTimeUtils.GetNextMonth(new DateTime(Year, Month, 1));
-                    Year = Next.Year;
-                    Month = Next.Month;
-                }
-                else
-                    Day++;
-            }
-            return row;
-        }
+        // Получить шапку таблицы
         public List<string> GetHeaderLine(DateTime startDate)
         {
             List<string> row = new List<string>();
-            StartDate = startDate;
-            EndDate = DateTimeUtils.GetEndDateOfMonth(startDate);
-            int Year = StartDate.Year;
-            int Month = StartDate.Month;
-            int Day = StartDate.Day;
+            _startDate = startDate;
+            _endDate = DateTimeUtils.GetEndDateOfMonth(startDate);
+            int year = _startDate.Year;
+            int month = _startDate.Month;
+            int day = _startDate.Day;
 
             row.Add("Ф.И.О.");
-            for (int i = 0; i < (EndDate - StartDate).Days + 2; i++)
+            for (int i = 0; i <= (_endDate.Day - _startDate.Day); i++)
             {
-                row.Add(Day.ToString());
-                if (Day >= DateTimeUtils.DaysInMonth(Year, Month))
+                row.Add(day.ToString());
+                if (day >= DateTimeUtils.DaysInMonth(year, month))
                 {
-                    Day = 1;
-                    DateTime Next = DateTimeUtils.GetNextMonth(new DateTime(Year, Month, 1));
-                    Year = Next.Year;
-                    Month = Next.Month;
+                    day = 1;
+                    DateTime Next = DateTimeUtils.GetNextMonth(new DateTime(year, month, 1));
+                    year = Next.Year;
+                    month = Next.Month;
                 }
                 else
-                    Day++;
+                    day++;
             }
             return row;
         }
-
-        private RowMonth GetRow(string group, string user)
-        {
-            RowMonth row = new RowMonth();
-            row.Columns.Add(group);
-            row.Columns.Add(user);
-            for (int i = 0; i < (EndDate - StartDate).Days + 2; i++)
-            {
-                row.Columns.Add(String.Empty);
-            }
-            return row;
-        }
-
 
         // получить события по ячейкам для всех пользователей 
         public List<EventGroupModel> GetGroupsEventList(DateTime startDate)
         {
-            StartDate = startDate;
-            EndDate = DateTimeUtils.GetEndDateOfMonth(StartDate);
+            _startDate = startDate;
+            _endDate = DateTimeUtils.GetEndDateOfMonth(_startDate);
             List<EventGroupModel> eventList = new List<EventGroupModel>();
             foreach (var gr in groupService.GetAllGroups())
             {
@@ -146,11 +109,11 @@ namespace PSP.WebUI.Helpers
         {
             EventsUserOfPeriod user = new EventsUserOfPeriod() { UserName = name, UserId = userId };
 
-            var list = dataService.GetEventsByDateAndUserId(StartDate.Date, EndDate.Date, userId);
-            for (int i = 0; i <= (EndDate - StartDate).Days + 1; i++)
+            var list = dataService.GetEventsByDateAndUserId(_startDate.Date, _endDate.Date, userId);
+            for (int i = 0; i <= (_endDate.Day - _startDate.Day); i++)
             {
-                CellElement cell = new CellElement() { ColumnIndex = i, Date = StartDate.AddDays(i).Date };
-                var userEv = list.FirstOrDefault(ev => ev.Date.Date == StartDate.AddDays(i).Date);
+                CellElement cell = new CellElement() { ColumnIndex = i, Date = _startDate.AddDays(i).Date };
+                var userEv = list.FirstOrDefault(ev => ev.Date.Date == _startDate.AddDays(i).Date);
                 if (userEv != null)
                     cell.DayEvent = userEv;
                 else
@@ -176,7 +139,6 @@ namespace PSP.WebUI.Helpers
                     DateTime timeTo;
                     int activityKey;
                     string comment;
-//                    if (FactoryListBoxItem.UnpackFromString(item, out factory, out timeFrom, out timeTo, out activityKey, out comment))
                     if (EventHelper.UnpackEventFromString(item, out factory, out timeFrom, out timeTo, out activityKey, out comment))
                     {
                         eventsList.Add(new ElementaryActivity() { Factory = factory, TimeFrom = timeFrom, TimeTo = timeTo, ActivityKey = activityKey, Comment = comment });
@@ -206,7 +168,7 @@ namespace PSP.WebUI.Helpers
                 cell.ToolTipText = Builder.ToString();
             }
             // &#013
-            else if (DateTimeUtils.CheckWeekendByColumn(column, StartDate))
+            else if (DateTimeUtils.CheckWeekendByColumn(column, _startDate))
             {
                 cell.BackColor = Color.LightPink;
                 cell.BackColor2 = Color.HotPink;
@@ -258,26 +220,6 @@ namespace PSP.WebUI.Helpers
             return Event;
         }
 
-        public events AddElementaryActivity(events _event)
-        {
-            var Event = _event;
-//            if (Event != null)
-            {
-                //Event.UserID = eventsOfDay.UserId;
-                //Event.Comments = eventsOfDay.Comments;
-                //Event.EventDesc = eventsOfDay.EventDesc;
-                //Event.Date = eventsOfDay.Date;
-                //Event.FactoryList = PackFactoryList(eventsOfDay);
-
-                //if (eventsOfDay.Activities.Count > 0)
-                //{
-                //    Event.State = eventsOfDay.Activities[0].ActivityKey;
-                //}
-            }
-            dataService.AddEvent(Event);
-            return Event;
-        }
-
         public events FillEvent(EventsOfDay eventsOfDay, events _event)
         {
             events Event;
@@ -301,6 +243,25 @@ namespace PSP.WebUI.Helpers
             }
             return Event;
         }
+
+        //private RowMonth GetRow(string group, string user)
+        //{
+        //    RowMonth row = new RowMonth();
+        //    row.Columns.Add(group);
+        //    row.Columns.Add(user);
+        //    for (int i = 0; i < (EndDate - StartDate).Days + 1; i++)
+        //    {
+        //        row.Columns.Add(String.Empty);
+        //    }
+        //    return row;
+        //}
+
+        //public events AddElementaryActivity(events _event)
+        //{
+        //    var Event = _event;
+        //    dataService.AddEvent(Event);
+        //    return Event;
+        //}
 
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using PSP.Domain;
 using PSP.Domain.Abstract;
 using PSP.Domain.Service;
@@ -16,6 +18,8 @@ namespace PSP.WebUI.Controllers
         private IRepository repository;
         private EventService eventService;
         private DataService dataService;
+
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         private DateTime startDate = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
 
         public EventController(IRepository paramRepository)
@@ -33,6 +37,33 @@ namespace PSP.WebUI.Controllers
             ViewBag.Header = header;
             ViewBag.Month = DateTimeUtils.GetMonthName(startDate.Month);
             ViewBag.Year = startDate.Year;
+            ViewBag.Count = header.Count;
+            ViewData["StartDate"] = startDate;
+            List<EventGroupModel> eventList = eventService.GetGroupsEventList(startDate);
+            return View(eventList);
+        }
+
+        [HttpPost]
+        public ActionResult Index(DateTime? datep, string datepick)
+        {
+            if (!String.IsNullOrEmpty(datepick))
+                startDate = DateTime.Parse(datepick);
+            else
+            {
+                if (datep != null)
+                    startDate = (DateTime)datep;
+                else
+                {
+                    startDate = DateTime.Now;
+                }
+            }
+            
+            startDate = DateTimeUtils.GetFirstDayOfThisMonth(startDate);
+            List<string> header = eventService.GetHeaderLine(startDate);
+            ViewBag.Header = header;
+            ViewBag.Month = DateTimeUtils.GetMonthName(startDate.Month);
+            ViewBag.Year = startDate.Year;
+            ViewData["StartDate"] = startDate;
             ViewBag.Count = header.Count;
             List<EventGroupModel> eventList = eventService.GetGroupsEventList(startDate);
             return View(eventList);

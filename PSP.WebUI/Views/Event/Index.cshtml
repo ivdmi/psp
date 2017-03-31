@@ -4,45 +4,93 @@
     ViewBag.Title = "Index";
 }
 
-<h2>События аудиторов @ViewBag.Month.ToString() @ViewBag.Year.ToString()</h2>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
+@*<script src="~/Scripts/jquery-ui-i18n.min.js"></script>*@
+<link href="~/Content/jquery-ui.css" type="text/css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery-ui.css" type="text/css" rel="stylesheet" />
+
+
+<style>
+     .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<h3>События аудиторов @ViewBag.Month.ToString() @ViewBag.Year.ToString()</h3>
 
 <body>
-    <table class="table-bordered table-hover">
-        <thead>
-            <tr>
-                @foreach (var cell in ViewBag.Header)
+    
+
+@using (Html.BeginForm("Index", "Event", FormMethod.Post))
+{
+    <input type="hidden" name="datepick" id="datepick" />
+    <table>
+        <tr>
+            <td class="h4" style="padding-right: 20px">Новая дата</td>
+            <td style="padding: 6px"><div id="inline"></div></td>
+            <td style ="padding-left: 20px"><input type="submit" value="Установить" class="btn-info btn-sm " /></td>
+        </tr>
+    </table>
+}
+
+<table class="table-bordered table-hover">
+    <thead>
+    <tr>
+        @foreach (var cell in ViewBag.Header)
+        {
+            <td style="width: 25px">
+                @cell
+            </td>
+        }
+    </tr>
+    </thead>
+
+    <tbody>
+    @foreach (var group in Model)
+    {
+        <tr class="warning">
+            <th colspan="@ViewBag.Count" style="background-color: bisque">
+                @group.GroupName
+            </th>
+        </tr>
+
+        foreach (var user in group.Users)
+        {
+            <tr style="height: 25px">
+                <td style="width: 150px">
+                    @user.UserName
+                </td>
+                @foreach (var cell in user.Cells)
                 {
-                    <td style="width: 25px">
-                        @cell
-                    </td>
+                    string t2 = @cell.ToolTipText;
+                    <td onclick="location.href = '@Url.Action("BoardEvents", "Event", new {userId = user.UserId, dateParam = cell.Date})'" data-toggle="tooltip" title='@t2' style="width: 25px; background-color: @cell.BackColor.Name"></td>
                 }
             </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var group in Model)
-            {
-                <tr class="warning">
-                    <th colspan="@ViewBag.Count" style="background-color: bisque">
-                        @group.GroupName
-                    </th>
-                </tr>
-
-                foreach (var user in group.Users)
-                {
-                    <tr style="height: 25px">
-                        <td style="width: 150px">
-                            @user.UserName
-                        </td>
-                        @foreach (var cell in user.Cells)
-                        {
-                            string t2 = @cell.ToolTipText;
-                            <td onclick="location.href='@Url.Action("BoardEvents", "Event", new { userId = user.UserId, dateParam = cell.Date })'" data-toggle="tooltip" title='@t2' style="width: 25px; background-color: @cell.BackColor.Name">
-                            </td>
-                        }
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+        }
+    }
+    </tbody>
+</table>
 </body>
+
+<script type="text/javascript">
+    
+    $(function () {
+        $('#inline').datepicker(
+            {
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true,
+            changeDay: false,
+            changeMonth: true,
+            changeYear: true,
+            firstDay: 1,
+            monthNamesShort: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Ноя', 'Дек'],
+            onChangeMonthYear: function (year, month, inst) {
+                $('#datepick').val(new Date(inst.selectedYear, inst.selectedMonth, 1).toDateString());
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            }
+
+            });
+    });
+</script>

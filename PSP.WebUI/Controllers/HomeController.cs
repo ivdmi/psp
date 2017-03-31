@@ -35,26 +35,10 @@ namespace PSP.WebUI.Controllers
 
         public ActionResult Index()
         {
-            return View(groupService.GetAllGroups());
+            //return View(groupService.GetAllGroups());
+            return RedirectToAction("Index", "Event");
         }
 
-        public ActionResult About()
-        {
-            var usersTreeView = new UsersTreeView(repository);
-            IList<UsersTreeViewModel> usersList = usersTreeView.GetTreeViewData();
-            return View(usersList);
-        }
-
-        //public ActionResult Admin()
-        //{
-        //    return View();
-        //}
-
-        public ActionResult Contact()
-        {
-            var user = repository.Users.FirstOrDefault();
-            return View(user);
-        }
 
         public ActionResult Details(string id)
         {
@@ -71,11 +55,9 @@ namespace PSP.WebUI.Controllers
         public ActionResult UserInfo(string us)
         {
             var user = repository.Users.FirstOrDefault(u => u.ID.Contains(us));
-            // ViewBag.User = user;
             return PartialView("_UserInfoPartialView", user);
         }
-
-
+        
         [HttpPost]
         public ActionResult UserInfo()
         {

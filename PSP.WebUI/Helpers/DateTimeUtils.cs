@@ -63,6 +63,11 @@ namespace PSP.WebUI.Helpers
             return new DateTime(DateTime.Today.Year, 1, 1);
         }
 
+        public static DateTime GetFirstDayOfThisMonth(DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, 1);
+        }
+
         public static DateTime GetLastDayOfThisYear(int Year)
         {
             var Date = new DateTime(DateTime.Today.Year + 1, 1, 1);
