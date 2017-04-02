@@ -9,7 +9,7 @@ using PSP.Domain.Service;
 
 namespace PSP.WebUI.Controllers
 {
-    [Authorize(Roles = "admin, manager, user")]
+    [Authorize(Roles = "admin")]
     public class UserController : Controller
     {
         private IRepository _repository;

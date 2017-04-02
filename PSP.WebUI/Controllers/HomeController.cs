@@ -12,6 +12,7 @@ using PSP.WebUI.Models;
 
 namespace PSP.WebUI.Controllers
 {
+    [Authorize(Roles = "admin, manager, user")]
     public class HomeController : Controller
     {
         private IRepository repository;
@@ -64,6 +65,7 @@ namespace PSP.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult AuditorStat()
         {
             DateTime StartDate = DateTime.Parse("1/12/2016");
@@ -75,6 +77,7 @@ namespace PSP.WebUI.Controllers
             return View(auditorStatisticsResult);
         }
 
+        [Authorize(Roles = "admin, manager")]
         public ActionResult FactoryStat()
         {
             DateTime StartDate = DateTime.Parse("1/12/2016");
@@ -86,6 +89,7 @@ namespace PSP.WebUI.Controllers
             return View(factoryStatisticResult);
         }
 
+        [Authorize(Roles = "admin, manager")]
         // GET: /Home/CloseMonth
         public ActionResult CloseMonth()
         {
@@ -95,6 +99,7 @@ namespace PSP.WebUI.Controllers
             return View(closeMonthData);
         }
 
+        [Authorize(Roles = "admin, manager")]
         // POST: /Home/CloseMonth
         [HttpPost]
         [Authorize(Roles = "admin")]

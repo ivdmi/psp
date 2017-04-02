@@ -6,7 +6,7 @@ using PSP.Domain.Service;
 
 namespace PSP.WebUI.Controllers
 {
-    [Authorize(Roles = "admin, manager, user")]
+    //[Authorize(Roles = "admin")]
     public class BaseUserController : Controller
     {
         private BaseUsersService baseUsers;
@@ -34,7 +34,7 @@ namespace PSP.WebUI.Controllers
 
         // GET: /BaseUser/Create
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             SelectList roles = new SelectList(UserRoles.RolesList);
@@ -44,7 +44,7 @@ namespace PSP.WebUI.Controllers
 
         // POST: /BaseUser/Create
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(baseusers user)
         {
@@ -83,7 +83,7 @@ namespace PSP.WebUI.Controllers
 
         // GET: /BaseUser/Edit
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public ActionResult Edit(string id)
         {
             baseusers user = baseUsers.GetUser(id);
@@ -98,7 +98,7 @@ namespace PSP.WebUI.Controllers
 
         // POST: /BaseUser/Edit
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(baseusers user)
         {

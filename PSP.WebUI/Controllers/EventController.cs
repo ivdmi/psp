@@ -13,6 +13,7 @@ using PSP.WebUI.Models;
 
 namespace PSP.WebUI.Controllers
 {
+    [Authorize(Roles = "admin, manager, user")]
     public class EventController : Controller
     {
         private IRepository repository;

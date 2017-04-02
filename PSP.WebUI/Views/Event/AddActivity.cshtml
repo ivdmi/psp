@@ -6,7 +6,22 @@
 <link href="~/Content/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
 <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
 <script src="~/Scripts/jquery-ui-timepicker-ru.js"></script>
-@*<script src="~/Scripts/jquery-ui-sliderAccess.js"></script>*@
+<script src="~/Scripts/jquery-ui-sliderAccess.js"></script>
+
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.css" type="text/css" media="all" />
+<style>
+    .ui-timepicker-select {
+        
+        width: 50px;
+        height: 50px;
+    }
+.ui-timepicker-div .ui-widget-header { margin-bottom: 10px; }
+.ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_time_label { display: none; padding-top: 2px; }
+.ui-timepicker-div.ui-timepicker-oneLine dl { text-align: center; color:black}
+.ui-timepicker-div.ui-timepicker-oneLine dl dd, 
+.ui-timepicker-div.ui-timepicker-oneLine dl dd > div { display:inline-block; margin:0;}
+</style>
+
 
 <h2>Добавить событие</h2>
 @using (Html.BeginForm("AddActivity", "Event", new { date = @ViewBag.Date, userId = @ViewBag.UserId }, FormMethod.Post))
@@ -27,14 +42,14 @@
             @Html.LabelFor(model => model.TimeFrom)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.TimeFrom)
+            @Html.TextBoxFor(model => model.TimeFrom, new { @Value = "09:00" })
             @Html.ValidationMessageFor(model => model.TimeFrom)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.TimeTo)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.TimeTo)
+            @Html.TextBoxFor(model => model.TimeTo, new { @Value = "09:20" })
             @Html.ValidationMessageFor(model => model.TimeTo)
         </div>
         <div class="editor-label">
@@ -85,16 +100,22 @@
         endTimeTextBox,
         {
             controlType: 'select',
-            //oneLine: true,
-            minInterval: (1000 * 60 * 5), // 5 min
+            oneLine: true,
+            timeInput: true,
+            minInterval: (1000 * 60 * 10), // 20 min
             currentText: 'Сейчас',
             closeText: 'Применить',
+            hour: 9,
             hourMin: 6,
             hourMax: 23,
-            stepMinute: 5,
+            stepMinute: 10,
             timeFormat: 'HH:mm',
-            start: {}, // start picker options
-            end: {} // end picker options
+            altFieldTimeOnly: false,
+            start: { }, // start picker options
+            end: {
+                hour: 9, 
+                min: 20
+            }
         }
     );
 </script>
